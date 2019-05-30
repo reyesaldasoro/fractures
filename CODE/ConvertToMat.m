@@ -25,6 +25,7 @@ for counter_0=1:numFolders_0
         disp(strcat(PatientsDir,dir0(counter_0).name,filesep,dir1(counter_1).name))
     end
 end
+
 %     for j=i:size(dir1)
 %         % loop over folder like STD1
 %         dir2 = dir(strcat(baseDir,filesep,dir0(1).name,filesep,'P*',filesep,'ST*'));
