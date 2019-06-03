@@ -3,7 +3,8 @@ close all;
 
 %%
 %baseDir = 'C:\Users\aczf102\Documents\MATLAB\Data\Patients';
-baseDir     = 'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM';
+%baseDir     = 'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM';
+baseDir     = '/Users/ccr22/OneDrive - City, University of London/Acad/Research/Exeter_Fracture/DICOM';
 PatientsDir = strcat(baseDir,filesep,'Patients',filesep);
 
 % read the first folder, use "T" as the first name is always TRANCHE 
