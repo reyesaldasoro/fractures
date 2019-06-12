@@ -1,6 +1,7 @@
 clear all;
 close all;
 
+
 %%
 %baseDir = 'C:\Users\aczf102\Documents\MATLAB\Data\Patients';
 %baseDir     = 'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM';
