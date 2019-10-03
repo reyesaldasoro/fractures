@@ -1,7 +1,15 @@
+%% Clear all variables and close all figures
 clear all
 close all
-cd ('/Users/ccr22/OneDrive - City, University of London/Acad/Research/Exeter_Fracture')
-
+clc
+%% Prepare folders
+if strcmp(filesep,'/')
+    % Running in Mac
+    cd ('/Users/ccr22/OneDrive - City, University of London/Acad/Research/Exeter_Fracture')
+else
+    % running in windows
+    cd ('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture')
+end
 %% Read the files that have been stored in the current folder
 baseDir                             = 'DICOM_Karen/';
 %XrayDir                            = dir('DICOM_MATLAB/*_PA_*.mat');
