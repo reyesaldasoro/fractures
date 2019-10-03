@@ -1,4 +1,4 @@
-function   extract_measurements_xray(currentFile)
+function   dataOut = extract_measurements_xray(currentFile)
 
 
 if  isa(currentFile,'char')
@@ -13,6 +13,8 @@ end
 Xray                            = currentData.Xray;
 Xray_info                       = currentData.Xray_info;
 Xray_mask                       = currentData.Xray_mask;
+
+displayData =0;
 
 % Analyse the parameters to extract separately, in all cases the input will be
 % the rotated Xray and the mask for the landmarks and the DICOM Info.
@@ -34,10 +36,17 @@ Xray_mask                       = currentData.Xray_mask;
 % Determine the profiles of bones and arm below the lunate to distinguish
 % inflammation of the arm, but first remove the edges of the collimator
 XrayR2                          = removeEdgesCollimator2(XrayR,70);
-[AreaInflammation,widthAtCM,inflammationLines,inflamationLimits]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,currentFile,1);
-set(gcf,'position',[321         381        1000         400]);
+[AreaInflammation,widthAtCM,inflammationLines,inflamationLimits]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,currentFile,displayData);
+%set(gcf,'position',[321         381        1000         400]);
 
 % Add the texture analysis previously done by Greg and Julia select automatically
 % a point drawn from the profiles
 sizeInMM                        = [5, 5];
 [LBP_Features,PatchSelected]    = ComputeLBPInPatch(XrayR,Xray_info,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+
+dataOut.TrabecularToTotal   = TrabecularToTotal;
+dataOut.WidthFinger         = WidthFinger;
+dataOut.stats               = stats;
+dataOut.LBP_Features        = LBP_Features;
+dataOut.widthAtCM           = widthAtCM;
+dataOut.inflamationLimits   =inflamationLimits;
