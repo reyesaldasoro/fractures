@@ -44,13 +44,44 @@ XrayR2                          = removeEdgesCollimator2(XrayR,70);
 sizeInMM                        = [5, 5];
 [LBP_Features,PatchSelected]    = ComputeLBPInPatch(XrayR,Xray_info,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
 
+%     
+%     % Collect all the metrics extracted
+%     % First the number of the patient
+%     results(k,1)                    = str2double(currentFile(initANON:finANON));
+%     % Now metrics that come from the DICOM file
+%     
+%     % Age, the field is not always present
+    if isfield(Xray_info,'PatientAge')
+        age = str2double(Xray_info.PatientAge(1:end-1));
+    else
+        % rough calculation of the age based on dates
+        age = (str2double(Xray_info.StudyDate(1:4))-str2double(Xray_info.PatientBirthDate(1:4)) + ...
+            (str2double(Xray_info.StudyDate(5:6))-str2double(Xray_info.PatientBirthDate(5:6)))/12 + ...
+            (str2double(Xray_info.StudyDate(7:8))-str2double(Xray_info.PatientBirthDate(7:8)))/365 );
+    end
+%     results(k,2)=round(age);
+    % Gender Female - 1, Male - 0
+    if isfield(Xray_info,'PatientSex')
+        if strcmp(Xray_info.PatientSex,'M')
+            gender                     = 0;
+        else
+            gender                     = 1;
+        end
+    else
+        gender                     = -1;
+    end
+
+
+dataOut2 = [age gender TrabecularToTotal WidthFinger  widthAtCM/widthAtCM(4) ...
+            stats.slope_1 stats.slope_2 stats.slope_short_1 stats.slope_short_2 ...
+            stats.std_1 stats.std_2 stats.std_ad_1 stats.std_ad_2 stats.row_LBP stats.col_LBP ...
+            LBP_Features];
+        
+dataOut.age                 = age;
+dataOut.gender              = gender;
 dataOut.TrabecularToTotal   = TrabecularToTotal;
 dataOut.WidthFinger         = WidthFinger;
 dataOut.stats               = stats;
 dataOut.LBP_Features        = LBP_Features;
 dataOut.widthAtCM           = widthAtCM;
-dataOut.inflamationLimits   =inflamationLimits;
-dataOut2 = [TrabecularToTotal WidthFinger  widthAtCM/widthAtCM(4) ...
-            stats.slope_1 stats.slope_2 stats.slope_short_1 stats.slope_short_2 ...
-            stats.std_1 stats.std_2 stats.std_ad_1 stats.std_ad_2 stats.row_LBP stats.col_LBP ...
-            LBP_Features];
+dataOut.inflamationLimits   =inflamationLimits;        
