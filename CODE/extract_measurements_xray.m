@@ -1,4 +1,4 @@
-function   dataOut = extract_measurements_xray(currentFile)
+function   [dataOut,dataOut2] = extract_measurements_xray(currentFile)
 
 
 if  isa(currentFile,'char')
@@ -50,3 +50,7 @@ dataOut.stats               = stats;
 dataOut.LBP_Features        = LBP_Features;
 dataOut.widthAtCM           = widthAtCM;
 dataOut.inflamationLimits   =inflamationLimits;
+dataOut2 = [TrabecularToTotal WidthFinger  widthAtCM/widthAtCM(4) ...
+            stats.slope_1 stats.slope_2 stats.slope_short_1 stats.slope_short_2 ...
+            stats.std_1 stats.std_2 stats.std_ad_1 stats.std_ad_2 stats.row_LBP stats.col_LBP ...
+            LBP_Features];
