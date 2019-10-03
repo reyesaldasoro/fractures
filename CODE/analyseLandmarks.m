@@ -82,6 +82,16 @@ for k=1:143%:numXrays
     %  close all
 end
 
+%%
+
+% calculate p values
+
+for kk=3:34
+[h,p,ci,stats] = ttest2(results(results(:,34)==1,kk),results(results(:,34)==2,kk));
+pp(kk)=p;
+end
+
+boxplot([results(results(:,34)==1,kk);results(results(:,34)==2,kk)],[results(results(:,34)==1,34);results(results(:,34)==2,34)])
 
 
 %  load('FracturesXray_FileDirectory_2018_03_26.mat')
