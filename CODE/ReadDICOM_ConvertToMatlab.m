@@ -97,7 +97,7 @@ for k =1:numXrays
         DescXR = 'PA';
     elseif contains(Xray_info.SeriesDescription,'AP','IgnoreCase',true)
         DescXR = 'PA';
-    elseif contains(Xray_info.SeriesDescription,'wrist','IgnoreCase',true)
+    elseif endsWith(Xray_info.SeriesDescription,'wrist','IgnoreCase',true)&&startsWith(Xray_info.SeriesDescription,'wrist','IgnoreCase',true)
         DescXR = 'PA';        
     elseif contains(Xray_info.SeriesDescription,'LAT','IgnoreCase',true)
         %DescXR = 'LA';
@@ -114,6 +114,8 @@ for k =1:numXrays
             %disp('1')
         case 'ARM'
             %disp(strcat(num2str(k),'_',originalName))
+        case 'EXTREMITY'
+            
         case 'WRIST'
             
         case 'FOREARM'
