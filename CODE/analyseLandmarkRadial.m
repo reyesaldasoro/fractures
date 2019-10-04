@@ -38,7 +38,7 @@ c_new1                   = c_lunate-0.35*dist_radial_lunate_cols;
 c_new2                   = c_lunate-0.35*dist_radial_lunate_cols;
 
 % Calculate the new row
-r_new1                   = r_radial-(c_radial-c_new1)*tan(slope_radial_new1);
+r_new1                   = r_radial-(c_radial-c_new1)*tan (slope_radial_new1);
 r_new2                   = r_radial-(c_radial-c_new2)*tan(slope_radial_new2);
 
 
