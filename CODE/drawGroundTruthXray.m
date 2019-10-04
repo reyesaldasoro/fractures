@@ -2,6 +2,8 @@
 
 clear all
 close all
+clc
+
 %% Read the files that have been stored in the current folder
 %baseDir             = 'DICOM_Karen/';
 baseDir             = 'DICOM_MATLAB/';
@@ -9,7 +11,7 @@ baseDir             = 'DICOM_MATLAB/';
 XrayDir             = dir(strcat(baseDir,'*_PA_*.mat'));
 numXrays            = size(XrayDir,1);
 
-%%
+
 %% 
 Pre_0   =[8845	8849	8853	8861	8865	8869	8873	8881	8893	8897	8909	8917	8921	8923	8929	8937	8945	8949	8953	8957	8965	8969	8973	8977	8989	8993	9001	9029	9057	9131	9135	9139	9151	9155	9159	9167	9179	9183	9191	9203	9207	9215	9219	9223	9243	9251	9259	9263	9267	9271	9279	9291	9295	9299	9319	9327	9343	9347	9355	9359	9363	9367	9385	9393	9397	9401	9413];
 Pre_1	=[8857	8885	8901	8905	8913	8933	8941	8981	8985	8997	9013	9017	9021	9025	9033	9037	9049	9053	9143	9147	9163	9171	9187	9195	9199	9211	9227	9235	9239	9249	9275	9287	9303	9307	9311	9315	9323	9331	9335	9339	9351	9381	9389	9405	9409																				];
@@ -28,25 +30,32 @@ AllCasesDone =[8845,8849,8869,8873,8897,8909,8923,8929,8937,8949,8953,8957,8973,
 %% Read the file, this can be done iteratively by changing "k"
 
 %
-%for k=1:numXrays
-k=121;
-%currentFile         = strcat('DICOM_MATLAB/',XrayDir(k).name);
-currentName         = XrayDir(k).name;
-currentFile         = strcat(baseDir,currentName);
-
-        initANON                        = 4+strfind(currentName,'ANON');
-        finANON                         = strfind(currentName,'_')-1;
-        CaseANON                        = str2double(currentName(initANON:finANON));
-% only process if is one of the cases need AND is not already done
-isNeeded            = any(AllCasesANON(:)==CaseANON);
-isDone              = any(AllCasesDone(:)==CaseANON);
-if isNeeded&(~isDone)
-        disp([ k CaseANON])
+k3=[];
+for k2=1:numXrays
+    %k=121;
+    %currentFile         = strcat('DICOM_MATLAB/',XrayDir(k).name);
+    currentName         = XrayDir(k2).name;
+    currentFile         = strcat(baseDir,currentName);
+    
+    initANON                        = 4+strfind(currentName,'ANON');
+    finANON                         = strfind(currentName,'_')-1;
+    CaseANON                        = str2double(currentName(initANON:finANON));
+    % only process if is one of the cases need AND is not already done
+    isNeeded            = any(AllCasesANON(2,:)==CaseANON);
+    isDone              = any(AllCasesDone(2,:)==CaseANON);
+    if isNeeded&(~isDone)
+        disp([ k2 CaseANON])
+        k3 = [k3;k2];
+    end
 end
-%end
-
 
 %%
+k=k3(5)
+close all
+
+    currentName         = XrayDir(k).name;
+    currentFile         = strcat(baseDir,currentName);
+%
 clear               Xray Xray_info Xray_mask Xray_RGB LM_Y LM_X
 currentData         = load(currentFile);
 % allocate to current variables that will be used for saving later on
@@ -64,6 +73,8 @@ end
 % Display the PA Xray from the MATLAB file
 
 figure
+set(gcf,'Position',[   560   189   838   759]);
+
 displayXrayWithMask
 zoom on
 % The figure is displayed, you can zoom if necessary
