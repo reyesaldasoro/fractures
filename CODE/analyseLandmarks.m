@@ -28,7 +28,7 @@ AllCasesANON = [Pre_0;Pre_1;Post_0;Post_1];
 
 %% Read the file, this can be done iteratively by changing "k"
 clear results
-results(numXrays,34)=0;
+results(numXrays,37)=0;
 displayData =0;
 done=[];
 remaining=[]
@@ -99,8 +99,8 @@ AllCasesANON_done = [Pre_0_done;Pre_1_done;Post_0_done;Post_1_done];
 %%
 % calculate p values
 
-for kk=3:34
-[h,p,ci,stats] = ttest2(results(results(:,34)==1,kk),results(results(:,34)==2,kk));
+for kk=3:37
+[h,p,ci,stats] = ttest2(results(results(:,37)==1,kk),results(results(:,37)==2,kk));
 pp(kk)=p;
 end
 %%
