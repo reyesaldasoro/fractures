@@ -8,6 +8,9 @@ function    [edgesArm,widthAtCM,dataOutput,outputLimits]=analyseLandmarkLunate(X
 
 % Calibration of Distances CM in Pixels
 CmInPixels                              = round((10/Xray_info.PixelSpacing(1)));
+if ~isfield(Xray_info,'PixelSpacing')
+    Xray_info.PixelSpacing=[    0.1440;     0.1440];
+end
 
 
 %minIntensity = min(Xray2(:));
