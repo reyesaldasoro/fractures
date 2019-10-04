@@ -32,7 +32,10 @@ angleRot                    = median(HoughAngles(PeaksHough(:,2)));
 %Xray5                       = imrotate(Xray2,angleRot);
 %Xray44                      = imrotate(Xray4,angleRot);
 XrayR                       = imrotate(Xray,angleRot);
-Xray_maskR                  = imrotate(Xray_mask,angleRot);
+%in some cases of rotation, a landmark disappears, dilate and erode
+Xray_maskR                  = imrotate(imdilate(Xray_mask,ones(3)),angleRot);
+Xray_maskR2                  = bwmorph(Xray_maskR,'shrink','inf');
+Xray_maskR                  = Xray_maskR2.*Xray_maskR;
 
 if ~exist('displayData','var')
     displayData=0;
