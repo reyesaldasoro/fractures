@@ -74,8 +74,14 @@ sizeInMM                        = [5, 5];
         gender                     = -1;
     end
 
-
-dataOut2 = [age    gender    TrabecularToTotal    WidthFinger     widthAtCM/widthAtCM(4) ...
+        initANON                        = 4+strfind(currentFile,'ANON');
+        finANON                         = strfind(currentFile,'_')-1;
+        finANON(finANON<initANON)       = [];
+        CaseANON                        = str2double(currentFile(initANON:finANON(1)));
+        
+        
+dataOut2 = [CaseANON age    gender    TrabecularToTotal    WidthFinger     widthAtCM/widthAtCM(4) ...
+            min(widthAtCM)/max(widthAtCM) (widthAtCM(1)+widthAtCM(8))/(widthAtCM(4)+widthAtCM(5)) (widthAtCM(1)+widthAtCM(2))/(widthAtCM(7)+widthAtCM(8)) ...
             stats.slope_1 stats.slope_2 stats.slope_short_1 stats.slope_short_2 ...
             stats.std_1 stats.std_2 stats.std_ad_1 stats.std_ad_2 stats.row_LBP stats.col_LBP ...
             LBP_Features];
