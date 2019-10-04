@@ -1,3 +1,5 @@
+clear all
+close all
 
 %% Complete directories with folders
 % Move the to folder where the DICOM files are stored.
@@ -96,7 +98,8 @@ for k =1:numXrays
     elseif contains(Xray_info.SeriesDescription,'AP','IgnoreCase',true)
         DescXR = 'PA';
     elseif contains(Xray_info.SeriesDescription,'LAT','IgnoreCase',true)
-        DescXR = 'LA';
+        %DescXR = 'LA';
+        DescXR =[];
     else 
         % Any other case, discard
         %disp(strcat(num2str(k),'_',Xray_info.SeriesDescription))
