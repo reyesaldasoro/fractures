@@ -13,6 +13,9 @@ end
 Xray                            = currentData.Xray;
 Xray_info                       = currentData.Xray_info;
 Xray_mask                       = currentData.Xray_mask;
+if ~isfield(Xray_info,'PixelSpacing')
+    Xray_info.PixelSpacing=[    0.1440;     0.1440];
+end
 
 displayData =0;
 
