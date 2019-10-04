@@ -32,7 +32,7 @@ results(numXrays,34)=0;
 displayData =0;
 done=[];
 remaining=[]
-for k=1:numXrays
+for k=   1:numXrays
     try
         %k=19;
         
