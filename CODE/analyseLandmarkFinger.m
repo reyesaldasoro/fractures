@@ -18,6 +18,12 @@ Xray_maskP          = regionprops(Xray_mask,Xray,'Area','Centroid','meanIntensit
 
 % Determine a square region around the landmark of the central finger if the landmark
 % is too close to the upper border, use a smaller region
+
+% Check that the field PixelSpacing exists, if not use values of other xrays
+if ~isfield(Xray_info,'PixelSpacing')
+    Xray_info.PixelSpacing=[    0.1440;     0.1440];
+end
+
 if Xray_maskP(3).Centroid(2)<100
     rr      = round(Xray_maskP(3).Centroid(2))+10:round(Xray_maskP(3).Centroid(2))+40;
     cc2     = 7*round(10/Xray_info.PixelSpacing(1)/10);
