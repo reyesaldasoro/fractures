@@ -6,6 +6,9 @@ function    [stats,prof_radial_new1,prof_radial_new2,dataOutput]=analyseLandmark
 % Locate the mask, and the centroids of the landmarks
 Xray_maskP          = regionprops(Xray_mask,Xray,'Area','Centroid','meanIntensity');
 
+if ~isfield(Xray_info,'PixelSpacing')
+    Xray_info.PixelSpacing=[    0.1440;     0.1440];
+end
 
 % Trace a line between the lunate and the radial styloid and then one at 20,40 degrees down
 % Determine the x,y (or rows,cols) location of lunate and radial styloid
