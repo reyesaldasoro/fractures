@@ -1,5 +1,17 @@
 clear all
 close all
+clc
+
+%% Prepare folders
+if strcmp(filesep,'/')
+    % Running in Mac
+    cd ('/Users/ccr22/OneDrive - City, University of London/Acad/Research/Exeter_Fracture')
+else
+    % running in windows
+    cd ('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture')
+end
+   
+
 
 %% Complete directories with folders
 % Move the to folder where the DICOM files are stored.
@@ -149,7 +161,7 @@ for k =1:numXrays
     
     if ~isempty(DescXR)
         newName = strcat(Xray_info.PatientID,'_',DescCase,'_',DescXR,'_',num2str(k));
-        %save(strcat('DICOM_MATLAB/',newName),'Xray','Xray_info')
+        save(strcat('DICOM_MATLAB/',newName),'Xray','Xray_info')
         disp(newName)
         XrayDir2(k).Keep = 1;
         CasesKept =[CasesKept;[k str2num(Xray_info.PatientID(5:end))]];
