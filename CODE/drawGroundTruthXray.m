@@ -50,7 +50,7 @@ for k2=1:numXrays
 end
 
 %%
-k=k3(5)
+k=k3(1)
 close all
 
     currentName         = XrayDir(k).name;
