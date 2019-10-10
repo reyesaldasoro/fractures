@@ -26,7 +26,7 @@ displayData =1;
 
 % First step, rotate the xray and the mask if necessary, return the angle and
 % rotations
-[XrayR,Xray_maskR,angleRot,XrayR]     = alignXray (Xray,Xray_mask,currentFile,displayData);
+[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask,currentFile,displayData);
 
 % Determine the ratio of trabecular / cortical to total bone in a region of the
 % central finger
