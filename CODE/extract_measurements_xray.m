@@ -4,9 +4,11 @@ function   [dataOut,dataOut2,displayResults] = extract_measurements_xray(current
 if  isa(currentFile,'char')
     % current file is a file name
     currentData                     = load(currentFile);
+    displayResults.nameFile         = currentFile;
 elseif isa(currentFile,'struct')
     % current file is a struct with the input data
     currentData                     = currentFile;
+    displayResults.nameFile         = '';
 end
 
 % allocate to current variables that will be used for saving later on
