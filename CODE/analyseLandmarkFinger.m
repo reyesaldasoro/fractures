@@ -47,14 +47,16 @@ maxIntensity = max(Xray2(:));
 %minIntensity = min(Xray2(:));
 
 % This is a single otsu level for the finger region
-otsuLevel   = maxIntensity*(graythresh(Xray2/maxIntensity));
+%otsuLevel   = maxIntensity*(graythresh(Xray2/maxIntensity));
 %    otsuLevel2   = maxIntensity*(graythresh(Xray_Centre/maxIntensity));
 %otsuLevel3   = otsuLevel*0.5;
-Xray3   = imclose(Xray2>(otsuLevel),strel('disk',15));
+%Xray3   = imclose(Xray2>(otsuLevel),strel('disk',15));
 
 % This is TWO otsu levels for the finger region, one left one right
 otsuLevelA   = maxIntensity*(graythresh(Xray2(:,1:floor(colsFr/2))/maxIntensity));
 otsuLevelB   = maxIntensity*(graythresh(Xray2(:,ceil(colsFr/2):end)/maxIntensity));
+
+
 Xray2A      = Xray2(:,1:floor(colsFr/2))>otsuLevelA;
 Xray2B      = Xray2(:,ceil(colsFr/2):end)>otsuLevelB;
 Xray2C       = [Xray2A Xray2B];
@@ -80,7 +82,7 @@ Xray4   = edge(Xray3,'canny');
 % Xray44(:,:,2) = Xray2;
 % Xray44(:,:,3) = Xray2.*(1-Xray4);% + Xray4*otsuLevel;
 
-[HoughFinger,HoughAngles,HoughDist] = hough(Xray4,'ThetaResolution',1);
+ [HoughFinger,HoughAngles,HoughDist] = hough(Xray4,'ThetaResolution',1);
 %figure(1)
 %imagesc(Xray2.*(1-Xray4))
 %caxis([minIntensity maxIntensity ])
@@ -107,8 +109,16 @@ rows2                       = size(Xray5,1);
 cols2                       = numel(Cortical);
 % Determine position of peaks, valleys and from there the edges of the bone, the
 % thickness of the cortical bone and the thickness of the marrow.
-[CorticalPeaks,CorticalPLocs]         = findpeaks(Cortical,'MinPeakDistance',10,'MinPeakHeight',min(otsuLevelA,otsuLevelB));
-[CorticalValleys,CorticalVLocs]       = findpeaks(1-Cortical,'MinPeakDistance',10);
+[CorticalPeaks,CorticalPLocs,widthP,prominenceP]         = findpeaks(Cortical,'MinPeakDistance',10,'MinPeakHeight',min(otsuLevelA,otsuLevelB));
+
+% Refine the location of the peaks by detecting their prominence, take the 2 most prominent
+if numel(CorticalPeaks>2)
+    [mp,mp2]=sort(prominenceP);
+    CorticalPeaks = CorticalPeaks(sort(mp2(end-1:end)));
+    CorticalPLocs = CorticalPLocs(sort(mp2(end-1:end)));
+end
+    
+[CorticalValleys,CorticalVLocs,widthV,prominenceV]       = findpeaks(1-Cortical,'MinPeakDistance',10);
 CorticalValleys =-CorticalValleys;
 
 %
@@ -116,13 +126,18 @@ CorticalValleys =-CorticalValleys;
 % intensity and centre of marrow, then each way there should be a peak, centre of the
 %  cortical bone, then a minimum, edge of the bone.
 
-[temp1,temp2]               = min(abs(CorticalVLocs-cc2));
+% In some rare cases, the finger is shifted towards one side (when it was on a certain angle)
+% in those cases, the centre is not very good location try replacing with the mean of the 
+% peaks detected
+%[temp1,temp2]               = min(abs(CorticalVLocs-cc2));
+
+[temp1,temp2]               = min(abs(CorticalVLocs-mean(CorticalPLocs)));
 centValley                  = CorticalValleys(temp2);
 centValleyLoc               = CorticalVLocs(temp2);
 
 % remove all valleys ABOVE the central valley
-CorticalVLocs(CorticalValleys>centValley) =[];
-CorticalValleys(CorticalValleys>centValley) =[];
+%CorticalVLocs(CorticalValleys>centValley) =[];
+%CorticalValleys(CorticalValleys>centValley) =[];
 
 % Peak to the left
 CorticalPeaksL              = CorticalPeaks(CorticalPLocs<centValleyLoc);
@@ -162,6 +177,10 @@ CorticalThresholdL               = mean([leftPeak leftEdge]);
 CorticalThresholdR               = mean([rightPeak rightEdge]);
 
 Xray5LPF                        = imfilter(Xray5,gaussF(7,3,1));
+% Remove areas left and right of the edges
+Xray5LPF(:,1:leftEdgeLoc)       = 0;
+Xray5LPF(:,rightEdgeLoc:end)       = 0;
+
 
 CorticalBoneC                    = Xray5LPF>CorticalThresholdC;
 CorticalBoneL                    = Xray5LPF>CorticalThresholdL;
