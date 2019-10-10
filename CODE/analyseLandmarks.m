@@ -98,10 +98,13 @@ Post_1_done(67)=0;
 AllCasesANON_done = [Pre_0_done;Pre_1_done;Post_0_done;Post_1_done];
 %%
 % calculate p values
+statDifference(2,37) = 0;
 
 for kk=3:37
-[h,p,ci,stats] = ttest2(results(results(:,37)==1,kk),results(results(:,37)==2,kk));
-pp(kk)=p;
+    [h,p,ci,stats] = ttest2(results(results(:,37)==1,kk),results(results(:,37)==2,kk));
+    statDifference(1,kk)=p;
+    [h,p,ci,stats] = ttest2(results(results(:,37)==3,kk),results(results(:,37)==4,kk));
+    statDifference(2,kk)=p;
 end
 %%
 kk=5;
