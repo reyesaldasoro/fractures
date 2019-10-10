@@ -119,6 +119,9 @@ dataOut.LBP_Features        = LBP_Features;
 dataOut.widthAtCM           = widthAtCM;
 
 displayResults.Xray                 = Xray;
+displayResults.Xray_info            = Xray_info;
+displayResults.Xray_mask            = Xray_mask;
+displayResults.Xray_maskR           = Xray_maskR;
 displayResults.displayResultsFinger = displayResultsFinger;
 displayResults.displayResultsRadial = displayResultsRadial;
 displayResults.displayResultsLunate = displayResultsLunate;
