@@ -33,13 +33,14 @@ results(numXrays,numResults)    = 0;
 displayData             = 0;
 done                    = [];
 remaining               = [];
-for k=   1:10:numXrays
+for k=   1:numXrays
     try
         %k=19;
         
         currentName                     = CXrayDir(k).name;
         currentFile                     = strcat(baseDir,currentName);
         
+        saveName                        = strcat('DICOM_Results/',currentName(1:end-3),'jpg');
         
         initANON                        = 4+strfind(currentName,'ANON');
         finANON                         = strfind(currentName,'_')-1;
@@ -52,8 +53,10 @@ for k=   1:10:numXrays
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-            figure
-             displayXrayMetrics(displayResults,dataOut)
+            figure;             displayXrayMetrics(displayResults,dataOut)
+            print(saveName,'-djpeg')
+            close;
+            
         else
             %disp([k CaseANON ])
             remaining=[remaining;k CaseANON];
