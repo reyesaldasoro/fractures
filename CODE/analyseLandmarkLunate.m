@@ -221,8 +221,9 @@ dataOutput(:,:,1) = regionBelowLunate.*(1-linesMeasurement)+linesMeasurement*max
 dataOutput(:,:,2) = regionBelowLunate.*(1-linesMeasurement);
 dataOutput          = dataOutput/maxIntensity;
 
-outputLimits = [c_init c_fin r_init r_fin ];
-
+outputLimits        = [c_init c_fin r_init r_fin ];
+wristWithLines1     = regionBelowLunate.*(1-q)+q*maxIntensity;
+wristWithLines      = wristWithLines1(max(1,r_init):min(rows2,r_fin),max(1,c_init):min(cols2,c_fin));
 
 if displayData==1
     
@@ -245,13 +246,16 @@ if displayData==1
     imagesc(Xray)
     title(currentFile(13:end),'interpreter','none')
     subplot(122)
-    imagesc(regionBelowLunate.*(1-q)+q*maxIntensity)
-    axis (outputLimits)
+
+    imagesc(wristWithLines)
+    %axis (outputLimits)
     colormap gray
     widthAtCM2 = num2str(widthAtCM);
     title(widthAtCM2,'interpreter','none')
     
 end
+
+displayResultsLunate        = wristWithLines;
 %figure(3)
 %imagesc(Xray)
 %colormap gray
