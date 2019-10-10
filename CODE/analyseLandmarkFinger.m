@@ -1,4 +1,4 @@
-function    [TrabecularToTotal,WidthFinger,dataOutput,Combined,CorticalProfile]=analyseLandmarkFinger(Xray,Xray_mask,Xray_info,currentFile,displayData)
+function    [TrabecularToTotal,WidthFinger,displayResults]=analyseLandmarkFinger(Xray,Xray_mask,Xray_info,currentFile,displayData)
 %
 % Regular dimensions check
 [rows,cols,levs]    = size(Xray);
@@ -263,3 +263,23 @@ if displayData==1
     %
     %    filename = strcat('Cortical',num2str(k),'.jpg');
 end
+
+% save results in a single variable
+displayResults.Combined             = Combined;
+displayResults.dataOutput           = dataOutput;
+displayResults.CorticalProfile      = CorticalProfile;
+displayResults.WidthFinger          = WidthFinger;
+displayResults.Xray2                = Xray2 ;
+displayResults.cc                   = cc;
+displayResults.rr                   = rr;
+displayResults.TrabecularToTotal    = TrabecularToTotal;
+
+
+
+% displayResults.leftEdgeLoc  = leftEdgeLoc;
+% displayResults.rightEdgeLoc = rightEdgeLoc ;
+% displayResults.rightPeakLoc = rightPeakLoc;
+% displayResults.leftPeakLoc  = leftPeakLoc ;
+% displayResults.centValleyLoc= centValleyLoc ;
+% displayResults.Cortical = Cortical ;
+
