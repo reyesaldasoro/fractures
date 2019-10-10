@@ -48,7 +48,7 @@ for k=   1:numXrays
         [x,y]                           = find(CaseANON==AllCasesANON);
         if ~isempty(x)
             disp([k CaseANON x y])
-            [qq,qq2]                        = extract_measurements_xray(currentFile);
+            [dataOut,qq2,displayResults]                        = extract_measurements_xray(currentFile);
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
