@@ -23,10 +23,10 @@ c_Fin               = x+Wx;
 PatchExtracted      = Xray(y-Wy:y+Wy,x-Wx:x+Wx);
 
 Xray_out            = double(Xray) / double(max(Xray(:)));
-Xray_out(r_Init:r_Init+3,c_Init:c_Fin)  =1;
-Xray_out(r_Fin:r_Fin+3,c_Init:c_Fin)    =1;
-Xray_out(r_Init:r_Fin,c_Init:c_Init+3)  =1;
-Xray_out(r_Init:r_Fin,c_Fin:c_Fin+3)  =1;
+Xray_out(r_Init:r_Init+15,c_Init:c_Fin)  =1;
+Xray_out(r_Fin-15:r_Fin,c_Init:c_Fin)    =1;
+Xray_out(r_Init:r_Fin,c_Init:c_Init+15)  =1;
+Xray_out(r_Init:r_Fin,c_Fin-15:c_Fin)  =1;
 
 % Get LBP features on patch
 LBP_features        = extractLBPFeatures(uint16(PatchExtracted), 'Upright', false);
