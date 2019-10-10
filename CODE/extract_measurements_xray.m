@@ -19,7 +19,7 @@ if ~isfield(Xray_info,'PixelSpacing')
     Xray_info.PixelSpacing=[    0.1440;     0.1440];
 end
 
-displayData =1;
+displayData =0;
 
 % Analyse the parameters to extract separately, in all cases the input will be
 % the rotated Xray and the mask for the landmarks and the DICOM Info.
