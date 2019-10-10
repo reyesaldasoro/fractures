@@ -78,7 +78,29 @@ sizeInMM                        = [5, 5];
         finANON                         = strfind(currentFile,'_')-1;
         finANON(finANON<initANON)       = [];
         CaseANON                        = str2double(currentFile(initANON:finANON(1)));
-        
+% Results order
+% 1         CaseANON
+% 2         age
+% 3         gender
+% 4         TrabecularToTotal
+% 5         WidthFinger
+% 6-13      widthAtCM/widthAtCM(4) ...
+% 14-21     min(widthAtCM)/max(widthAtCM) 
+% 15       (widthAtCM(1)+widthAtCM(8))/(widthAtCM(4)+widthAtCM(5)) 
+% 16       (widthAtCM(1)+widthAtCM(2))/(widthAtCM(7)+widthAtCM(8)) ...
+% 17        stats.slope_1 
+% 18        stats.slope_2 
+% 19        stats.slope_short_1 
+% 20        stats.slope_short_2 ...
+% 21        stats.std_1 
+% 22        stats.std_2 
+% 23        stats.std_ad_1 
+% 24        stats.std_ad_2 
+% 25        stats.row_LBP 
+% 26        stats.col_LBP ...
+% 27-36     LBP_Features];
+
+
         
 dataOut2 = [CaseANON age    gender    TrabecularToTotal    WidthFinger     widthAtCM/widthAtCM(4) ...
             min(widthAtCM)/max(widthAtCM) (widthAtCM(1)+widthAtCM(8))/(widthAtCM(4)+widthAtCM(5)) (widthAtCM(1)+widthAtCM(2))/(widthAtCM(7)+widthAtCM(8)) ...
