@@ -1,4 +1,4 @@
-function [LBP_features, PatchExtracted] = ComputeLBPInPatch(Xray,Xray_info,x, y, sizeInMM,displayData)
+function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,x, y, sizeInMM,displayData)
 
 % % Load the image and get header
 % I = dicomread(filename);
