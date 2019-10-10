@@ -1,4 +1,4 @@
-function    [stats,prof_radial_new1,prof_radial_new2,dataOutput]=analyseLandmarkRadial(Xray,Xray_mask,Xray_info,currentFile,displayData)
+function    [stats,displayResultsRadial]=analyseLandmarkRadial(Xray,Xray_mask,Xray_info,currentFile,displayData)
 %
 % Regular dimensions check
 [rows,cols,levs]    = size(Xray);
