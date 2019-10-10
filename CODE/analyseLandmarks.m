@@ -35,9 +35,10 @@ done                    = [];
 remaining               = [];
 for k=   1:numXrays
     try
-        %k=19;
+        %
+        %k=174;
         
-        currentName                     = CXrayDir(k).name;
+        currentName                     = CXrayDir(k).name
         currentFile                     = strcat(baseDir,currentName);
         
         saveName                        = strcat('DICOM_Results/',currentName(1:end-3),'jpg');
@@ -47,6 +48,7 @@ for k=   1:numXrays
         CaseANON                        = str2double(currentName(initANON:finANON));
         
         [x,y]                           = find(CaseANON==AllCasesANON);
+        %
         if ~isempty(x)
             disp([k CaseANON x y])
             [dataOut,qq2,displayResults]                        = extract_measurements_xray(currentFile);
