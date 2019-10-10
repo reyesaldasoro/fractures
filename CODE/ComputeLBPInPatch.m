@@ -16,12 +16,23 @@ spacing             = Xray_info.ImagerPixelSpacing;
 sizeInPixels        = round(sizeInMM ./ spacing');
 Wx                  = sizeInPixels(1);
 Wy                  = sizeInPixels(2);
-PatchExtracted      = Xray(y-Wy:y+Wy, x-Wx:x+Wx);
+r_Init              = y-Wy;
+r_Fin               = y+Wy;
+c_Init              = x-Wx;
+c_Fin               = x+Wx; 
+PatchExtracted      = Xray(y-Wy:y+Wy,x-Wx:x+Wx);
 
+Xray_out            = double(Xray) / double(max(Xray(:)));
+Xray_out(r_Init:r_Init+3,c_Init:c_Fin)  =1;
+Xray_out(r_Fin:r_Fin+3,c_Init:c_Fin)    =1;
+Xray_out(r_Init:r_Fin,c_Init:c_Init+3)  =1;
+Xray_out(r_Init:r_Fin,c_Fin:c_Fin+3)  =1;
 
 % Get LBP features on patch
 LBP_features        = extractLBPFeatures(uint16(PatchExtracted), 'Upright', false);
 
+displayResultsLBP.Xray_out          = Xray_out;
+displayResultsLBP.PatchExtracted      = PatchExtracted;
 
 % Show image
 if (displayData)
