@@ -1,4 +1,4 @@
-function    [XrayR,Xray_maskR,angleRot]=alignXray(Xray,Xray_mask,currentFile,displayData)
+function    [XrayR,Xray_maskR,angleRot,XrayR]=alignXray(Xray,Xray_mask,currentFile,displayData)
 
 % Regular dimensions check
 [rows,cols]            = size(Xray);

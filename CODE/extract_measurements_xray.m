@@ -17,7 +17,7 @@ if ~isfield(Xray_info,'PixelSpacing')
     Xray_info.PixelSpacing=[    0.1440;     0.1440];
 end
 
-displayData =0;
+displayData =1;
 
 % Analyse the parameters to extract separately, in all cases the input will be
 % the rotated Xray and the mask for the landmarks and the DICOM Info.
@@ -26,7 +26,7 @@ displayData =0;
 
 % First step, rotate the xray and the mask if necessary, return the angle and
 % rotations
-[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask,currentFile,displayData);
+[XrayR,Xray_maskR,angleRot,XrayR]     = alignXray (Xray,Xray_mask,currentFile,displayData);
 
 % Determine the ratio of trabecular / cortical to total bone in a region of the
 % central finger
