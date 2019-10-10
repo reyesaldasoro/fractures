@@ -273,6 +273,16 @@ displayResultsFinger.Xray2                = Xray2 ;
 displayResultsFinger.cc                   = cc;
 displayResultsFinger.rr                   = rr;
 displayResultsFinger.TrabecularToTotal    = TrabecularToTotal;
+displayResultsFinger.centValleyLoc        = centValleyLoc;
+displayResultsFinger.centValley           = centValley;
+displayResultsFinger.leftPeakLoc          = leftPeakLoc ;
+displayResultsFinger.leftPeak             = leftPeak ;
+displayResultsFinger.rightPeakLoc         = rightPeakLoc;
+displayResultsFinger.rightPeak            = rightPeak;
+displayResultsFinger.leftEdgeLoc          = leftEdgeLoc;
+displayResultsFinger.leftEdge             = leftEdge;
+displayResultsFinger.rightEdgeLoc         = rightEdgeLoc;
+displayResultsFinger.rightEdge            = rightEdge;
 
 
 
