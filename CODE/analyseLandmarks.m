@@ -28,10 +28,11 @@ AllCasesANON = [Pre_0;Pre_1;Post_0;Post_1];
 
 %% Read the file, this can be done iteratively by changing "k"
 clear results
-results(numXrays,37)=0;
-displayData =0;
-done=[];
-remaining=[]
+numResults              = 37;
+results(numXrays,numResults)    = 0;
+displayData             = 0;
+done                    = [];
+remaining               = [];
 for k=   1:numXrays
     try
         %k=19;
@@ -50,10 +51,10 @@ for k=   1:numXrays
             [qq,qq2]                        = extract_measurements_xray(currentFile);
             results(k,:)                    = [qq2 x];
             
-            %done=[done;k CaseANON x y];
+            done=[done;k CaseANON x y];
         else
             %disp([k CaseANON ])
-            %remaining=[remaining;k CaseANON];
+            remaining=[remaining;k CaseANON];
             
         end
         %
@@ -98,12 +99,12 @@ Post_1_done(67)=0;
 AllCasesANON_done = [Pre_0_done;Pre_1_done;Post_0_done;Post_1_done];
 %%
 % calculate p values
-statDifference(2,37) = 0;
+statDifference(2,numResults) = 0;
 
-for kk=3:37
-    [h,p,ci,stats] = ttest2(results(results(:,37)==1,kk),results(results(:,37)==2,kk));
+for kk=3:numResults
+    [h,p,ci,stats] = ttest2(results(results(:,numResults)==1,kk),results(results(:,numResults)==2,kk));
     statDifference(1,kk)=p;
-    [h,p,ci,stats] = ttest2(results(results(:,37)==3,kk),results(results(:,37)==4,kk));
+    [h,p,ci,stats] = ttest2(results(results(:,numResults)==3,kk),results(results(:,numResults)==4,kk));
     statDifference(2,kk)=p;
 end
 %%
