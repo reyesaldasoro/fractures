@@ -1,7 +1,15 @@
-function displayXrayMetrics(displayResults,dataOut);
-
+function displayXrayMetrics(displayResults,dataOut)
+ set(gcf,'Position', [   247   168   927   780])
 subplot(241)
 imagesc(displayResults.Xray)
+    sizeDilate = 25;
+    Xray_mask2 = imdilate (displayResults.Xray_mask,ones(sizeDilate));    
+    Xray_RGB(:,:,1)     = (Xray_mask2==1)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
+    Xray_RGB(:,:,2)     = (Xray_mask2==2)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
+    Xray_RGB(:,:,3)     = (Xray_mask2==3)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
+imagesc(Xray_RGB)
+
+
 title(displayResults.nameFile,'interpreter','none')
 % Add the results of the finger
 subplot(3,4,2)
