@@ -33,7 +33,7 @@ results(numXrays,numResults)    = 0;
 displayData             = 0;
 done                    = [];
 remaining               = [];
-for k=   1:numXrays
+for k=   1:10:numXrays
     try
         %k=19;
         
@@ -52,6 +52,8 @@ for k=   1:numXrays
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
+            figure
+             displayXrayMetrics(displayResults,dataOut)
         else
             %disp([k CaseANON ])
             remaining=[remaining;k CaseANON];
