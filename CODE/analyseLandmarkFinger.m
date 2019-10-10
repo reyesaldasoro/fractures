@@ -40,16 +40,41 @@ cc      = round(Xray_maskP(3).Centroid(1))-cc2:round(Xray_maskP(3).Centroid(1))+
 %[rows,columns,levels]=size(Xray);
 %return
 Xray2 = double(Xray(rr,cc));
+[rowsF,colsFr] = size(Xray2);
 
 
 maxIntensity = max(Xray2(:));
 %minIntensity = min(Xray2(:));
 
+% This is a single otsu level for the finger region
 otsuLevel   = maxIntensity*(graythresh(Xray2/maxIntensity));
 %    otsuLevel2   = maxIntensity*(graythresh(Xray_Centre/maxIntensity));
 %otsuLevel3   = otsuLevel*0.5;
-
 Xray3   = imclose(Xray2>(otsuLevel),strel('disk',15));
+
+% This is TWO otsu levels for the finger region, one left one right
+otsuLevelA   = maxIntensity*(graythresh(Xray2(:,1:floor(colsFr/2))/maxIntensity));
+otsuLevelB   = maxIntensity*(graythresh(Xray2(:,ceil(colsFr/2):end)/maxIntensity));
+Xray2A      = Xray2(:,1:floor(colsFr/2))>otsuLevelA;
+Xray2B      = Xray2(:,ceil(colsFr/2):end)>otsuLevelB;
+Xray2C       = [Xray2A Xray2B];
+Xray3       = imopen(Xray2C,ones(3));
+Xray3       = imclose(Xray3,strel('disk',15));
+
+% In some cases, there are 2 regions as the fingers next to the others appear, keep central region
+[Xray3_L,numReg]     = bwlabel(Xray3);
+if numReg>1
+    Xray3_R         = regionprops(Xray3_L,'area','centroid');
+    [maxRegion, indMax]       = max([Xray3_R.Area]);
+    casesXray3      = unique(Xray3_L);
+    Xray3           = (Xray3_L==indMax);
+    casesXray3(casesXray3==indMax)=[];
+    casesXray3(casesXray3==0)=[];
+    
+    Xray2(Xray3_L==casesXray3)=0.9*min(otsuLevelA,otsuLevelB);
+    
+end
+
 Xray4   = edge(Xray3,'canny');
 % Xray44(:,:,1) = Xray2;
 % Xray44(:,:,2) = Xray2;
@@ -82,7 +107,7 @@ rows2                       = size(Xray5,1);
 cols2                       = numel(Cortical);
 % Determine position of peaks, valleys and from there the edges of the bone, the
 % thickness of the cortical bone and the thickness of the marrow.
-[CorticalPeaks,CorticalPLocs]         = findpeaks(Cortical,'MinPeakDistance',10);
+[CorticalPeaks,CorticalPLocs]         = findpeaks(Cortical,'MinPeakDistance',10,'MinPeakHeight',min(otsuLevelA,otsuLevelB));
 [CorticalValleys,CorticalVLocs]       = findpeaks(1-Cortical,'MinPeakDistance',10);
 CorticalValleys =-CorticalValleys;
 
