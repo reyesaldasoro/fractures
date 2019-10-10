@@ -1,4 +1,4 @@
-function   [dataOut,dataOut2] = extract_measurements_xray(currentFile)
+function   [dataOut,dataOut2,displayResults] = extract_measurements_xray(currentFile)
 
 
 if  isa(currentFile,'char')
@@ -17,7 +17,7 @@ if ~isfield(Xray_info,'PixelSpacing')
     Xray_info.PixelSpacing=[    0.1440;     0.1440];
 end
 
-displayData =1;
+displayData =0;
 
 % Analyse the parameters to extract separately, in all cases the input will be
 % the rotated Xray and the mask for the landmarks and the DICOM Info.
@@ -115,4 +115,12 @@ dataOut.WidthFinger         = WidthFinger;
 dataOut.stats               = stats;
 dataOut.LBP_Features        = LBP_Features;
 dataOut.widthAtCM           = widthAtCM;
-dataOut.inflamationLimits   =inflamationLimits;        
+
+displayResults.Xray                 = Xray;
+displayResults.displayResultsFinger = displayResultsFinger;
+displayResults.displayResultsRadial = displayResultsRadial;
+displayResults.displayResultsLunate = displayResultsLunate;
+displayResults.displayResultsLBP    = displayResultsLBP;
+%displayResults. =;
+
+%dataOut.inflamationLimits   =inflamationLimits;        
