@@ -256,3 +256,13 @@ if displayData==1
     
 end
 %%
+displayResultsRadial.prof_radial_new1       = prof_radial_new1;
+displayResultsRadial.prof_radial_new2       = prof_radial_new2;
+displayResultsRadial.prof2_radial_new1      = prof2_radial_new1;
+displayResultsRadial.prof2_radial_new2      = prof2_radial_new2;
+displayResultsRadial.dataOutput           = dataOutput;
+% displayResultsRadial.       = ;
+% displayResultsRadial.       = ;
+% displayResultsRadial.       = ;
+% displayResultsRadial.       = ;
+% displayResultsRadial.       = ;
