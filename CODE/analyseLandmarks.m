@@ -108,11 +108,12 @@ for kk=3:numResults
     statDifference(2,kk)=p;
 end
 %%
-kk=8;
-case1 = 3;
-case2 = 4;
-boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
+kk=11;
+case1 = 1;
+case2 = 2;
 
+boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
+title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifference(case2/2,kk))));
 
 %  load('FracturesXray_FileDirectory_2018_03_26.mat')
 % numXrays                            = size(results,1);
