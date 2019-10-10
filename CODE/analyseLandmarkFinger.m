@@ -1,4 +1,4 @@
-function    [TrabecularToTotal,WidthFinger,displayResults]=analyseLandmarkFinger(Xray,Xray_mask,Xray_info,currentFile,displayData)
+function    [TrabecularToTotal,WidthFinger,displayResultsFinger]=analyseLandmarkFinger(Xray,Xray_mask,Xray_info,currentFile,displayData)
 %
 % Regular dimensions check
 [rows,cols,levs]    = size(Xray);
@@ -265,21 +265,21 @@ if displayData==1
 end
 
 % save results in a single variable
-displayResults.Combined             = Combined;
-displayResults.dataOutput           = dataOutput;
-displayResults.CorticalProfile      = CorticalProfile;
-displayResults.WidthFinger          = WidthFinger;
-displayResults.Xray2                = Xray2 ;
-displayResults.cc                   = cc;
-displayResults.rr                   = rr;
-displayResults.TrabecularToTotal    = TrabecularToTotal;
+displayResultsFinger.Combined             = Combined;
+displayResultsFinger.dataOutput           = dataOutput;
+displayResultsFinger.CorticalProfile      = CorticalProfile;
+displayResultsFinger.WidthFinger          = WidthFinger;
+displayResultsFinger.Xray2                = Xray2 ;
+displayResultsFinger.cc                   = cc;
+displayResultsFinger.rr                   = rr;
+displayResultsFinger.TrabecularToTotal    = TrabecularToTotal;
 
 
 
-% displayResults.leftEdgeLoc  = leftEdgeLoc;
-% displayResults.rightEdgeLoc = rightEdgeLoc ;
-% displayResults.rightPeakLoc = rightPeakLoc;
-% displayResults.leftPeakLoc  = leftPeakLoc ;
-% displayResults.centValleyLoc= centValleyLoc ;
-% displayResults.Cortical = Cortical ;
+% displayResultsFinger.leftEdgeLoc  = leftEdgeLoc;
+% displayResultsFinger.rightEdgeLoc = rightEdgeLoc ;
+% displayResultsFinger.rightPeakLoc = rightPeakLoc;
+% displayResultsFinger.leftPeakLoc  = leftPeakLoc ;
+% displayResultsFinger.centValleyLoc= centValleyLoc ;
+% displayResultsFinger.Cortical = Cortical ;
 
