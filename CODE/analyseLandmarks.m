@@ -33,7 +33,7 @@ results(numXrays,numResults)    = 0;
 displayData             = 0;
 done                    = [];
 remaining               = [];
-for k=   1:numXrays
+for k=   168%1:numXrays
     try
         %
         %k=174;
@@ -114,13 +114,16 @@ for kk=3:numResults
     [h,p,ci,stats] = ttest2(results(results(:,numResults)==3,kk),results(results(:,numResults)==4,kk));
     statDifference(2,kk)=p;
 end
+save results_2019_10_11 results statDifference numResults
 %%
-kk=11;
+kk=4;
 case1 = 1;
 case2 = 2;
 
 boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
 title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifference(case2/2,kk))));
+%%
+plot(3:36,statDifference(1,3:end-1),'b-o',3:36,statDifference(2,3:end-1),'r-x',[1 38],[0.05 0.05],'k-');grid on
 
 %  load('FracturesXray_FileDirectory_2018_03_26.mat')
 % numXrays                            = size(results,1);
