@@ -34,8 +34,9 @@ Xray_nans(Xray<=sortedValues_Xray(2))   = nan;
 % Remove those pixels that are EXACTLY the maximum intensity, most likely they are
 % the indications of left-right
 maxIntensity                            = max(Xray(:));
-maxPixels                               = imdilate(Xray==(maxIntensity),ones(9));
-
+maxPixels                               = imdilate(Xray>=(0.99*maxIntensity),ones(9));
+maxPixels                               = imfill(maxPixels,'holes');
+maxPixels                               = imopen(maxPixels,ones(17));
 cMaxPixels                              = mean(find(sum(maxPixels)));
 
 % Project the intensity from the lunate downwards, there should be two peaks with
@@ -46,7 +47,7 @@ rLunate                                 = round(Xray_maskP(1).Centroid(2));
 cLunate                                 = round(Xray_maskP(1).Centroid(1));
 
 % remove the edge of the border
-Xray_border                             = 1-imdilate(Xray==0,ones(35));
+Xray_border                             = 1-imdilate(Xray<=1,ones(35));
 if abs(cLunate-cMaxPixels)>150
     Xray_LPF                            = imfilter(Xray,gaussF(5,5,1)).*(1-maxPixels).*Xray_border;
 else
@@ -139,7 +140,7 @@ regionBelowLunate_sides(:,rightEdge:end)= 0;
 [cc,rr]                                 = meshgrid(1:cols2,1:rows2);
 % Find canny edges to detect the edges of the arm
 edgesBelowLunate                        = edge(regionBelowLunate.*regionBelowLunate_sides(:,:),'canny',[],7);
-edgesBelowFilled                        = ((cumsum(edgesBelowLunate,2,'reverse')>0)+(cumsum(edgesBelowLunate,2)>0))==2;
+edgesBelowFilled                        = imclose (((cumsum(edgesBelowLunate,2,'reverse')>0)+(cumsum(edgesBelowLunate,2)>0))==2, ones(3));
 edgesFilledRanked                       = edgesBelowFilled.*cc;
 edgesFilledRanked(edgesBelowFilled==0)  = nan;
 edgesArm                                = edge(edgesBelowFilled,'canny');
