@@ -74,7 +74,9 @@ if numReg>1
     casesXray3(casesXray3==0)=[];
     
     Xray2(Xray3_L==casesXray3)=0.9*min(otsuLevelA,otsuLevelB);
-    
+    profileExtraR   = sum(Xray3_L==casesXray3);
+else
+    profileExtraR   = zeros(1,colsFr);
 end
 
 Xray4   = edge(Xray3,'canny');
@@ -102,9 +104,16 @@ if Xray_maskP(3).Centroid(2)<100
 else
     Xray5 = imrotate(Xray2,angleRot);
 end
+if numReg>1
+    profileExtraR   = sum(imrotate(imdilate(Xray3_L==casesXray3,ones(3)),angleRot));
+else
+    profileExtraR   = zeros(1,size(Xray5,2));
+end
 
-Cortical = sum(Xray5)./sum(Xray5>0);
 
+
+
+Cortical                    = sum(Xray5)./sum(Xray5>0);
 rows2                       = size(Xray5,1);
 cols2                       = numel(Cortical);
 % Determine position of peaks, valleys and from there the edges of the bone, the
@@ -114,10 +123,26 @@ cols2                       = numel(Cortical);
 % Refine the location of the peaks by detecting their prominence, take the 2 most prominent
 if numel(CorticalPeaks>2)
     [mp,mp2]=sort(prominenceP);
-    CorticalPeaks = CorticalPeaks(sort(mp2(end-1:end)));
-    CorticalPLocs = CorticalPLocs(sort(mp2(end-1:end)));
-end
+    CorticalPeaks   = CorticalPeaks(sort(mp2(end-1:end)));
     
+    CorticalPLocs   = CorticalPLocs(sort(mp2(end-1:end)));
+    widthP          = widthP(sort(mp2(end-1:end)));
+    prominenceP     = prominenceP(sort(mp2(end-1:end)));
+end
+
+
+% Once peaks are located, the edges of the bone are found through the derivative of the cortical profile
+diffCortical                = diff(imfilter(Cortical,[1 1 1]/3,'replicate','same'));
+diffCortical(CorticalPLocs(1):CorticalPLocs(2)) = 0;
+diffCortical(profileExtraR~=0)                  = 0;
+
+[leftEdP,leftEdL]           = findpeaks(diffCortical,'SortStr','descend','Npeaks',1);
+[rightEdP,rightEdL]           = findpeaks(-diffCortical,'SortStr','descend','Npeaks',1);
+
+leftEdV = Cortical(leftEdL);
+rightEdV = Cortical(rightEdL);
+
+%rightEdP = - rightEdP;
 [CorticalValleys,CorticalVLocs,widthV,prominenceV]       = findpeaks(1-Cortical,'MinPeakDistance',10);
 CorticalValleys =-CorticalValleys;
 
