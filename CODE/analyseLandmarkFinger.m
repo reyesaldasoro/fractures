@@ -60,22 +60,37 @@ otsuLevelB   = maxIntensity*(graythresh(Xray2(:,ceil(colsFr/2):end)/maxIntensity
 Xray2A      = Xray2(:,1:floor(colsFr/2))>otsuLevelA;
 Xray2B      = Xray2(:,ceil(colsFr/2):end)>otsuLevelB;
 Xray2C       = [Xray2A Xray2B];
-Xray3       = imopen(Xray2C,ones(3));
+Xray3       = imopen(Xray2C,ones(5));
 Xray3       = imclose(Xray3,strel('disk',15));
 
 % In some cases, there are 2 regions as the fingers next to the others appear, keep central region
 [Xray3_L,numReg]     = bwlabel(Xray3);
 if numReg>1
+    % find the areas, typical bone regions have areas 2000-5000. 
     Xray3_R         = regionprops(Xray3_L,'area','centroid');
+    % if one area is larger than 1500, discard small ones
     [maxRegion, indMax]       = max([Xray3_R.Area]);
-    casesXray3      = unique(Xray3_L);
-    Xray3           = (Xray3_L==indMax);
-    casesXray3(casesXray3==indMax)=[];
-    casesXray3(casesXray3==0)=[];
-    
-    Xray2(Xray3_L==casesXray3)=0.9*min(otsuLevelA,otsuLevelB);
-    profileExtraR   = sum(Xray3_L==casesXray3);
+    if maxRegion>1500
+        casesXray3      = unique(Xray3_L);
+        Xray3           = (Xray3_L==indMax);
+        casesXray3(casesXray3==indMax)=[];
+        casesXray3(casesXray3==0)=[];        
+        Xray2(Xray3_L==casesXray3)=0.9*min(otsuLevelA,otsuLevelB);
+        removedRegions   =Xray3_L==casesXray3;
+         profileExtraR   = sum(removedRegions);
+    else
+        % Two small regions, must be sides of bones, keep both and close
+        disp('-------more than 2 regions-------')
+        [maxRegion2, indMax2]       = sort([Xray3_R.Area],'descend');
+        Xray3A           = ismember(Xray3_L,indMax2(1:2));
+        Xray3           = imclose(Xray3A,ones(5,60));
+        removedRegions  = (1-Xray3).*(Xray3_L>0);
+         profileExtraR   = sum(removedRegions);
+    end
+   
 else
+    %Xray3_R         = regionprops(Xray3_L,'area','centroid');
+    %disp(Xray3_R.Area)
     profileExtraR   = zeros(1,colsFr);
 end
 
@@ -105,7 +120,7 @@ else
     Xray5 = imrotate(Xray2,angleRot);
 end
 if numReg>1
-    profileExtraR   = sum(imrotate(imdilate(Xray3_L==casesXray3,ones(3)),angleRot));
+    profileExtraR   = sum(imrotate(imdilate(removedRegions,ones(3)),angleRot));
 else
     profileExtraR   = zeros(1,size(Xray5,2));
 end
@@ -135,12 +150,16 @@ end
 diffCortical                = diff(imfilter(Cortical,[1 1 1]/3,'replicate','same'));
 diffCortical(CorticalPLocs(1):CorticalPLocs(2)) = 0;
 diffCortical(profileExtraR~=0)                  = 0;
+diffCorticalToTheLeft               = diffCortical;
+diffCorticalToTheRight              = -diffCortical;
+diffCorticalToTheLeft(CorticalPLocs(1):end) = 0;
+diffCorticalToTheRight(1:CorticalPLocs(2))=0;
 
-[leftEdP,leftEdL]           = findpeaks(diffCortical,'SortStr','descend','Npeaks',1);
-[rightEdP,rightEdL]           = findpeaks(-diffCortical,'SortStr','descend','Npeaks',1);
+[leftEdP,leftEdgeLoc]               = findpeaks(diffCorticalToTheLeft,'SortStr','descend','Npeaks',1);
+[rightEdP,rightEdgeLoc]             = findpeaks(diffCorticalToTheRight,'SortStr','descend','Npeaks',1);
 
-leftEdV = Cortical(leftEdL);
-rightEdV = Cortical(rightEdL);
+leftEdge = Cortical(leftEdgeLoc);
+rightEdge = Cortical(rightEdgeLoc);
 
 %rightEdP = - rightEdP;
 [CorticalValleys,CorticalVLocs,widthV,prominenceV]       = findpeaks(1-Cortical,'MinPeakDistance',10);
@@ -181,20 +200,20 @@ rightPeak                    = CorticalPeaksR(temp6);
 rightPeakLoc                 = CorticalPeaksRL(temp6);
 
 % Edge to the left
-[temp7]                     = find(CorticalVLocs<leftPeakLoc,1,'last');
-leftEdge                    = CorticalValleys(temp7);
-leftEdgeLoc                 = CorticalVLocs(temp7);
-
-% Edge to the right
-[temp8]                         = find(CorticalVLocs>rightPeakLoc,1,'first');
-if isempty(temp8)
-    % no edge detected, set at the extreme
-    rightEdgeLoc                    = cols2-1;
-    rightEdge                       = Cortical(rightEdgeLoc);
-else
-    rightEdge                       = CorticalValleys(temp8);
-    rightEdgeLoc                    = CorticalVLocs(temp8);
-end
+% [temp7]                     = find(CorticalVLocs<leftPeakLoc,1,'last');
+% leftEdge                    = CorticalValleys(temp7);
+% leftEdgeLoc                 = CorticalVLocs(temp7);
+% 
+% % Edge to the right
+% [temp8]                         = find(CorticalVLocs>rightPeakLoc,1,'first');
+% if isempty(temp8)
+%     % no edge detected, set at the extreme
+%     rightEdgeLoc                    = cols2-1;
+%     rightEdge                       = Cortical(rightEdgeLoc);
+% else
+%     rightEdge                       = CorticalValleys(temp8);
+%     rightEdgeLoc                    = CorticalVLocs(temp8);
+% end
 
 % area cortical is all above the average between central and peaks
 CorticalThresholdC               = mean([mean([rightPeak leftPeak]) centValley]);
