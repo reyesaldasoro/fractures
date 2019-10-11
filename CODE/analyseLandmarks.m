@@ -38,7 +38,7 @@ for k=   1:numXrays
         %
         %k=174;
         
-        currentName                     = CXrayDir(k).name
+        currentName                     = CXrayDir(k).name;
         currentFile                     = strcat(baseDir,currentName);
         
         saveName                        = strcat('DICOM_Results/',currentName(1:end-3),'jpg');
@@ -57,7 +57,7 @@ for k=   1:numXrays
             done=[done;k CaseANON x y];
             figure;             displayXrayMetrics(displayResults,dataOut)
             print(saveName,'-djpeg')
-            close;
+            close all;
             
         else
             %disp([k CaseANON ])
