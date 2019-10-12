@@ -53,7 +53,12 @@ if abs(cLunate-cMaxPixels)>150
 else
     Xray_LPF                            = imfilter(Xray,gaussF(5,5,1)).*Xray_border;
 end
+Xray_border2                            = imerode(Xray_border,ones(35));
+borderValues                            = sort(Xray_LPF((Xray_border-Xray_border2)>0));
+borderValues1                           = diff(borderValues);
 
+[valBackground,edgeBackground]          = findpeaks(borderValues1,'SortStr','descend','Npeaks',1);
+otherThreshold                          = borderValues(edgeBackground);
 % Crop the X-ray to remove the hand and above, one option is to start from the
 % rLunate another is to go slightly higher to have one line above the lunate.
 % regionBelowLunate                       = Xray_LPF(rLunate:end-100,:);
@@ -123,9 +128,16 @@ if isempty(ProfileValleys)
 else
     backgroundThreshold                 = max(ProfileValleys);
 end
-
+disp([otherThreshold backgroundThreshold])
 % Remove the background
-regionBelowLunate_sides1                = regionBelowLunate.*(regionBelowLunate>backgroundThreshold);
+regionBelowLunate_sides0                = (regionBelowLunate>backgroundThreshold);
+regionBelowLunate_sides0_L              = bwlabel(regionBelowLunate_sides0);
+regionBelowLunate_sides0_R              = regionprops(regionBelowLunate_sides0_L,'area');
+% Remove small regions on sides
+regionBelowLunate_sides0_F              = ismember(regionBelowLunate_sides0_L,find([regionBelowLunate_sides0_R.Area]>3000));
+% Close slightly 
+regionBelowLunate_sides0_C              = imfill(imclose(regionBelowLunate_sides0_F, ones(5,15)),'holes');
+regionBelowLunate_sides1                = regionBelowLunate.*(regionBelowLunate_sides0_C);
 % Open to remove regions to the sides
 regionBelowLunate_sides2                = imopen(regionBelowLunate_sides1>0,ones(10,205));
 regionBelowLunate_sides              	= imclose(regionBelowLunate_sides2>0,ones(15,2));
