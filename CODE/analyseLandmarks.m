@@ -33,7 +33,7 @@ results(numXrays,numResults)    = 0;
 displayData             = 0;
 done                    = [];
 remaining               = [];
-for k=   168%1:numXrays
+for k=  1:numXrays
     try
         %
         %k=174;
