@@ -67,15 +67,25 @@ r_new2                   = r_radial-(c_radial-c_new2)*tan(slope_radial_new2);
 % lunate and the drop of new2 should be further than new1
 
 profile1_1                  = imfilter(prof_radial_new1',gaussF(15,1,1),'replicate');
-profile1_2                  = diff(profile1_1);
+profile1_2                   = diff(profile1_1);
 profile1_3                  = profile1_2;
+% remove the first part of the signal
 profile1_3(1:abs(round(0.7*dist_radial_lunate_cols))) = 0;
 [peaks_p1,peaks_p1_L]       = findpeaks(-profile1_3(4:end-3),'SortStr','descend','MinPeakDistance',5);
+% If the second peak is strong, and much closer to the region, it may be that the second peak is due to the
+% SECOND bone it leaves.
+if (peaks_p1(2)>0.5*peaks_p1(1)) && (peaks_p1_L(2)<(-40+peaks_p1_L(1)))
+    peaks_p1(1) =[];
+    peaks_p1_L(1) = [];
+    disp('--- take earlier peak ---');
+end
 
 profile2_1                  = imfilter(prof_radial_new2',gaussF(15,1,1),'replicate');
 profile2_2                  = diff(profile2_1);
 profile2_3                  = profile2_2;
-profile2_3(1:abs(round(dist_radial_lunate_cols))) = 0;
+% To find the peak with the bones, it is good to remove the first part of the signal, but not too much
+profile2_3(1:abs(round(0.8*dist_radial_lunate_cols))) = 0;
+% remove the last part of the signal
 profile2_3(round(1.9*(peaks_p1_L(1))):end) = 0;
 
 [peaks_p2,peaks_p2_L]       = findpeaks(-profile2_3(5:end-5),'SortStr','descend','MinPeakDistance',5);
