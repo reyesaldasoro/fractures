@@ -75,9 +75,9 @@ profile1_3(1:abs(round(0.7*dist_radial_lunate_cols))) = 0;
 % If the second peak is strong, and much closer to the region, it may be that the second peak is due to the
 % SECOND bone it leaves.
 if (peaks_p1(2)>0.5*peaks_p1(1)) && (peaks_p1_L(2)<(-40+peaks_p1_L(1)))
-    peaks_p1(1) =[];
-    peaks_p1_L(1) = [];
-    disp('--- take earlier peak ---');
+    %peaks_p1(1) =[];
+    %peaks_p1_L(1) = [];
+    %disp('--- take earlier peak ---');
 end
 
 profile2_1                  = imfilter(prof_radial_new2',gaussF(25,1,1),'replicate');
@@ -96,7 +96,14 @@ profile2_3(round(1.9*(peaks_p1_L(1))):end) = 0;
 c_new1                      = round(rows_radial_new1(peaks_p1_L(1)));
 r_new1                      = round(cols_radial_new1(peaks_p1_L(1)));
 
+% figure(1)
+% hold off;plot(profile1_3,'r');hold on;plot(profile1_2,'b');plot(peaks_p1_L,peaks_p1,'m*')
+% figure(2)
+% hold off;plot(profile2_3,'r');hold on;plot(profile2_2,'r');plot(peaks_p2_L,peaks_p2,'m*')
+% figure(3)
+% hold off;imagesc(Xray);hold on;plot(rows_radial_new1,cols_radial_new1,'b'); plot(rows_radial_new2,cols_radial_new2,'r');colormap gray
 %
+
 % figure(10)
 % subplot(211)
 % hold off
