@@ -1,4 +1,6 @@
 function displayXrayMetrics(displayResults,dataOut)
+
+
  set(gcf,'Position', [   247   168   927   780])
 subplot(241)
 imagesc(displayResults.Xray)
@@ -32,6 +34,10 @@ colormap gray
 % add the LBP Results
 subplot(3,4,6)
 imagesc(displayResults.displayResultsLBP.Xray_out)
+% zoom in a little bit
+[rows,cols,levs]=size(displayResults.displayResultsLBP.Xray_out);
+ axis(round([0.2*cols 0.8*cols 0.3*rows 0.9*rows ]))
+
 subplot(3,4,7)
 imagesc(displayResults.displayResultsLBP.PatchExtracted)
 subplot(3,4,8)
@@ -42,6 +48,11 @@ grid on
 % add the profiles
 subplot(3,4,10)
 imagesc(displayResults.displayResultsRadial.dataOutput)
+% zoom in a little bit
+[rows,cols,levs]=size(displayResults.displayResultsRadial.dataOutput);
+ axis(round([0.2*cols 0.8*cols 0.3*rows 0.9*rows ]))
+
+
 subplot(3,4,11)
 hold off
 plot(displayResults.displayResultsRadial.prof_radial_new1,'r')
