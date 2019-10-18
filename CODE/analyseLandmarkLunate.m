@@ -128,7 +128,7 @@ if isempty(ProfileValleys)
 else
     backgroundThreshold                 = max(ProfileValleys);
 end
-disp([otherThreshold backgroundThreshold])
+%disp([otherThreshold backgroundThreshold])
 % Remove the background
 regionBelowLunate_sides0                = (regionBelowLunate>backgroundThreshold);
 regionBelowLunate_sides0_L              = bwlabel(regionBelowLunate_sides0);
