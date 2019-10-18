@@ -101,14 +101,14 @@ sizeInMM                        = [5, 5];
 % 25        stats.row_LBP 
 % 26        stats.col_LBP ...
 % 27-36     LBP_Features];
-
+% 28-29     distance of the profiles
 
         
 dataOut2 = [CaseANON age    gender    TrabecularToTotal    WidthFinger     widthAtCM/widthAtCM(4) ...
             min(widthAtCM)/max(widthAtCM) (widthAtCM(1)+widthAtCM(8))/(widthAtCM(4)+widthAtCM(5)) (widthAtCM(1)+widthAtCM(2))/(widthAtCM(7)+widthAtCM(8)) ...
             stats.slope_1 stats.slope_2 stats.slope_short_1 stats.slope_short_2 ...
             stats.std_1 stats.std_2 stats.std_ad_1 stats.std_ad_2 stats.row_LBP stats.col_LBP ...
-            LBP_Features];
+            LBP_Features displayResultsRadial.dist_prof_1 displayResultsRadial.dist_prof_2];
         
 dataOut.age                 = age;
 dataOut.gender              = gender;
