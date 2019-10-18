@@ -277,7 +277,12 @@ displayResultsRadial.prof_radial_new1       = prof_radial_new1;
 displayResultsRadial.prof_radial_new2       = prof_radial_new2;
 displayResultsRadial.prof2_radial_new1      = prof2_radial_new1;
 displayResultsRadial.prof2_radial_new2      = prof2_radial_new2;
-displayResultsRadial.dataOutput           = dataOutput;
+displayResultsRadial.dataOutput             = dataOutput;
+displayResultsRadial.dist_prof_1            = Xray_info.PixelSpacing(1) *sqrt((diff(rows_radial_new1([1 end]))).^2 +(diff( cols_radial_new1([1 end]))).^2 );
+displayResultsRadial.dist_prof_2            = Xray_info.PixelSpacing(1) *sqrt((diff(rows_radial_new2([1 end]))).^2 +(diff( cols_radial_new2([1 end]))).^2 );
+
+
+
 % displayResultsRadial.       = ;
 % displayResultsRadial.       = ;
 % displayResultsRadial.       = ;
