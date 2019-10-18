@@ -80,7 +80,7 @@ if (peaks_p1(2)>0.5*peaks_p1(1)) && (peaks_p1_L(2)<(-40+peaks_p1_L(1)))
     disp('--- take earlier peak ---');
 end
 
-profile2_1                  = imfilter(prof_radial_new2',gaussF(15,1,1),'replicate');
+profile2_1                  = imfilter(prof_radial_new2',gaussF(25,1,1),'replicate');
 profile2_2                  = diff(profile2_1);
 profile2_3                  = profile2_2;
 % To find the peak with the bones, it is good to remove the first part of the signal, but not too much
