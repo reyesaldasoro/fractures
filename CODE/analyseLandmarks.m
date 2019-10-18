@@ -28,12 +28,12 @@ AllCasesANON = [Pre_0;Pre_1;Post_0;Post_1];
 
 %% Read the file, this can be done iteratively by changing "k"
 clear results
-numResults              = 37;
+numResults              = 39;
 results(numXrays,numResults)    = 0;
 displayData             = 0;
 done                    = [];
 remaining               = [];
-for k=  1:numXrays
+for k=   1:numXrays
     try
         %
         %k=174;
@@ -55,9 +55,9 @@ for k=  1:numXrays
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-            figure;             displayXrayMetrics(displayResults,dataOut)
-            print(saveName,'-djpeg')
-            close all;
+           % figure;             displayXrayMetrics(displayResults,dataOut)
+           % print(saveName,'-djpeg')
+           % close all;
             
         else
             %disp([k CaseANON ])
@@ -123,7 +123,7 @@ case2 = 2;
 boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
 title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifference(case2/2,kk))));
 %%
-plot(3:36,statDifference(1,3:end-1),'b-o',3:36,statDifference(2,3:end-1),'r-x',[1 38],[0.05 0.05],'k-');grid on
+plot(3:numResults-1,statDifference(1,3:end-1),'b-o',3:numResults-1,statDifference(2,3:end-1),'r-x',[1 numResults],[0.05 0.05],'k-');grid on
 
 %  load('FracturesXray_FileDirectory_2018_03_26.mat')
 % numXrays                            = size(results,1);
