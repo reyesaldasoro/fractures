@@ -100,8 +100,8 @@ sizeInMM                        = [5, 5];
 % 24        stats.std_ad_2 
 % 25        stats.row_LBP 
 % 26        stats.col_LBP ...
-% 27-36     LBP_Features];
-% 28-29     distance of the profiles
+% 27-36     LBP_Features
+% 37-38     distance of the profiles
 
         
 dataOut2 = [CaseANON age    gender    TrabecularToTotal    WidthFinger     widthAtCM/widthAtCM(4) ...
