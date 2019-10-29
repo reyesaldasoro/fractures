@@ -52,7 +52,7 @@ for k=   1:numXrays
         finANON                         = strfind(currentName,'_')-1;
         CaseANON                        = str2double(currentName(initANON:finANON));
         
-        [x,y]                           = find(CaseANON==AllCasesANON);
+        [x,y]                           = find(CaseANON==AllCasesANON(5,:));
         %
         if ~isempty(x)
             disp([k CaseANON x y])
@@ -60,9 +60,9 @@ for k=   1:numXrays
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-           % figure;             displayXrayMetrics(displayResults,dataOut)
-           % print(saveName,'-djpeg')
-           % close all;
+            figure;             displayXrayMetrics(displayResults,dataOut)
+            print(saveName,'-djpeg')
+            close all;
             
         else
             %disp([k CaseANON ])
@@ -180,7 +180,7 @@ nameMetrics{38}='distance of the profiles';
 %%
 
 
-kk=4;
+kk=3;
 case1 = 1;
 case2 = 3;
 
