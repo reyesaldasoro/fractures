@@ -55,17 +55,23 @@ for k2=1:numXrays
 end
 
 %%
-k=k3(2)
+%k=k3(2)
+%
+k=157;
 close all
 
     currentName         = XrayDir(k).name;
     currentFile         = strcat(baseDir,currentName);
-%
+    disp(currentFile)
+%%
 clear               Xray Xray_info Xray_mask Xray_RGB LM_Y LM_X
 currentData         = load(currentFile);
+
+
 % allocate to current variables that will be used for saving later on
 Xray                = currentData.Xray;
 Xray_info           = currentData.Xray_info;
+
 [rows,cols,levs]    = size(Xray);
 
 % If there is already a mask, read it if not, create with zeros
