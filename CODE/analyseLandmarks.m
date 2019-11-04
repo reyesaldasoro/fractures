@@ -56,13 +56,13 @@ for k=   1:numXrays
         %
         if ~isempty(x)
             disp([k CaseANON x y])
-           % [dataOut,qq2,displayResults]                        = extract_measurements_xray(currentFile);
-           % results(k,:)                    = [qq2 x];
+            [dataOut,qq2,displayResults]                        = extract_measurements_xray(currentFile);
+            results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-           % figure;             displayXrayMetrics(displayResults,dataOut)
-           % print(saveName,'-djpeg')
-           % close all;
+            %figure;             displayXrayMetrics(displayResults,dataOut)
+            %print(saveName,'-djpeg')
+            %close all;
             
         else
             %disp([k CaseANON ])
@@ -120,19 +120,22 @@ for kk=3:numResults
     statDifference(2,kk)=p;
     [h,p,ci,stats] = ttest2(results(results(:,numResults)==5,kk),results( (results(:,numResults)>0)&(results(:,numResults)<5)  ,kk));
     statDifference(3,kk)=p;
+    [h,p,ci,stats] = ttest2(results( (results(:,numResults)==1)|(results(:,numResults)==2)   ,kk),results( (results(:,numResults)==3)|(results(:,numResults)==4)  ,kk));
+    statDifference(4,kk)=p;
     
 end
-save results_2019_10_11 results statDifference numResults
+%save results_2019_10_11 results statDifference numResults
 %%
 kk=4;
 case1 = 1;
+
 case2 = 2;
 
 boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
 title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifference(case2/2,kk))));
 %%
-plot(3:numResults-1,statDifference(1,3:end-1),'b-o',3:numResults-1,statDifference(2,3:end-1),'r-x',3:numResults-1,statDifference(3,3:end-1),'m--d',[1 numResults],[0.05 0.05],'k-');grid on
-legend({'Pre 0 v 1','Post 0 v 1','Norm v pat'})
+plot(3:numResults-1,statDifference(1,3:end-1),'b-o',3:numResults-1,statDifference(2,3:end-1),'r-x',3:numResults-1,statDifference(3,3:end-1),'m-d',3:numResults-1,statDifference(4,3:end-1),'k-v',[1 numResults],[0.05 0.05],'k-');grid on
+legend({'Pre 0 v 1','Post 0 v 1','Norm v pat','Pre v Post'})
 xlabel('Number Metric')
 ylabel('p-value')
 %%
@@ -180,7 +183,7 @@ nameMetrics{38}='distance of the profiles';
 %%
 
 
-kk=3;
+kk=20;
 case1 = 1;
 case2 = 3;
 
