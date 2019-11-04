@@ -52,17 +52,17 @@ for k=   1:numXrays
         finANON                         = strfind(currentName,'_')-1;
         CaseANON                        = str2double(currentName(initANON:finANON));
         
-        [x,y]                           = find(CaseANON==AllCasesANON(5,:));
+        [x,y]                           = find(CaseANON==AllCasesANON(:,:));
         %
         if ~isempty(x)
             disp([k CaseANON x y])
-            [dataOut,qq2,displayResults]                        = extract_measurements_xray(currentFile);
-            results(k,:)                    = [qq2 x];
+           % [dataOut,qq2,displayResults]                        = extract_measurements_xray(currentFile);
+           % results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-            figure;             displayXrayMetrics(displayResults,dataOut)
-            print(saveName,'-djpeg')
-            close all;
+           % figure;             displayXrayMetrics(displayResults,dataOut)
+           % print(saveName,'-djpeg')
+           % close all;
             
         else
             %disp([k CaseANON ])
