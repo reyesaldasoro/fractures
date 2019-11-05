@@ -182,9 +182,17 @@ stats.std_2             = std_new2;
 stats.std_ad_1          = std_fit1;
 stats.std_ad_2          = std_fit2;
 
-stats.row_LBP           = round(rows_radial_new1(100));
-stats.col_LBP           = round(cols_radial_new1(100));
+% The position for the LBP patch is determined here. It was thought that 100 points
+% from the lines would be convenient but this is only for cases where the lines are
+% around 200-400 long, for a case where the line is 130, this is too far away.
 
+if numel(rows_radial_new1)<200
+    positionLBP = abs(round(0.4*dist_radial_lunate_cols));
+else
+    positionLBP = 100;
+end
+stats.row_LBP           = round(rows_radial_new1(positionLBP));
+stats.col_LBP           = round(cols_radial_new1(positionLBP));
 
 % Display the PA Xray from the MATLAB file
 
