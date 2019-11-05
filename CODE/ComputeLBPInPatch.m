@@ -1,4 +1,4 @@
-function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,x, y, sizeInMM,displayData)
+function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,Xray_mask,x, y, sizeInMM,displayData)
 
 %[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR,Xray_info,stats.row_LBP-40,stats.col_LBP+50,sizeInMM,displayData);
 
@@ -13,8 +13,8 @@ function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,x,
 % end
 
 % Locate the mask, and the centroids of the landmarks
-Xray_maskP          = regionprops(Xray_mask,Xray,'Area','Centroid','meanIntensity');
-d
+Xray_maskP          = regionprops(Xray_mask,'Area','Centroid');
+
 
 % Trace a line between the lunate and the radial styloid and then one at 20,40 degrees down
 % Determine the x,y (or rows,cols) location of lunate and radial styloid
