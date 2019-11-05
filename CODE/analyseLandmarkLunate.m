@@ -22,7 +22,7 @@ Xray_maskP                              = regionprops(Xray_mask,Xray,'Area','Cen
 % when finding the minimum values of the Xray which are not zeros.
 % some WEIRD cases have a large region with values more than zero but far lower than
 % the Xrays, for those cases, sort all the values and remove all pixels below the
-% SECOND lowest value, for normal cases, it should not affect.
+% SECOND lowest value, for normal cases, it shld not affect.
 
 sortedValues_Xray                       = unique(Xray);
 
@@ -47,7 +47,7 @@ rLunate                                 = round(Xray_maskP(1).Centroid(2));
 cLunate                                 = round(Xray_maskP(1).Centroid(1));
 
 % remove the edge of the border
-Xray_border                             = 1-imdilate(Xray<=1,ones(35));
+Xray_border                             = 1-imdilate(imopen(Xray<=1,ones(6)),ones(35));
 if abs(cLunate-cMaxPixels)>150
     Xray_LPF                            = imfilter(Xray,gaussF(5,5,1)).*(1-maxPixels).*Xray_border;
 else
