@@ -22,7 +22,7 @@ c_lunate                = Xray_maskP(1).Centroid(1); % (1),(1)
 c_radial                = Xray_maskP(2).Centroid(1); % (2),(1)
 %Move the mark closer towards the centre.
 if c_lunate>c_radial
-    x = x-40;
+    x = x+40;
 else
     x = x-40;
 end
