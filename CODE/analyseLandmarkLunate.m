@@ -122,11 +122,16 @@ ProfileValleys(ProfileVLocs<leftEdge)   = [];
 ProfileVLocs(ProfileVLocs<leftEdge)     = [];
 ProfileVLocs(ProfileVLocs>rightEdge)    = [];
 
-
-if isempty(ProfileValleys)
-    backgroundThreshold                 = max(armProfile_min2([leftEdge rightEdge]));
+% if there is a fourth landmark, use that as threshold, otherwise, calculate as
+% before
+if max(Xray_mask(:))==4
+    backgroundThreshold                 = mean(Xray(Xray_mask==4));
 else
-    backgroundThreshold                 = max(ProfileValleys);
+    if isempty(ProfileValleys)
+        backgroundThreshold                 = max(armProfile_min2([leftEdge rightEdge]));
+    else
+        backgroundThreshold                 = max(ProfileValleys);
+    end
 end
 %disp([otherThreshold backgroundThreshold])
 % Remove the background
@@ -142,7 +147,13 @@ regionBelowLunate_sides1                = regionBelowLunate.*(regionBelowLunate_
 regionBelowLunate_sides2                = imopen(regionBelowLunate_sides1>0,ones(10,205));
 regionBelowLunate_sides              	= imclose(regionBelowLunate_sides2>0,ones(15,2));
 
+if max(Xray_mask(:))==4
+    leftEdge                            = find(sum(regionBelowLunate_sides)>0,1,'first');
+    rightEdge                            = find(sum(regionBelowLunate_sides)>0,1,'last');
+end
 
+    
+    
 % Ensure that nothing on the sides of the background remains (the collimator)
 regionBelowLunate_sides(:,1:leftEdge)   = 0;
 regionBelowLunate_sides(:,rightEdge:end)= 0;
