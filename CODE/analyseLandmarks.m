@@ -60,9 +60,9 @@ for k=   1:numXrays
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-            %figure;             displayXrayMetrics(displayResults,dataOut)
-            %print(saveName,'-djpeg')
-            %close all;
+            figure;             displayXrayMetrics(displayResults,dataOut)
+            print(saveName,'-djpeg')
+            close all;
             
         else
             %disp([k CaseANON ])
