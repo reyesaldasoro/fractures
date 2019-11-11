@@ -41,7 +41,7 @@ displayData =0;
 % Determine the profiles of bones and arm below the lunate to distinguish
 % inflammation of the arm, but first remove the edges of the collimator
 XrayR2                          = removeEdgesCollimator2(XrayR,70);
-[AreaInflammation,widthAtCM,displayResultsLunate]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,currentFile,displayData);
+[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,currentFile,displayData);
 %set(gcf,'position',[321         381        1000         400]);
 
 % Add the texture analysis previously done by Greg and Julia select automatically
@@ -127,6 +127,8 @@ displayResults.Xray_maskR           = Xray_maskR;
 displayResults.displayResultsFinger = displayResultsFinger;
 displayResults.displayResultsRadial = displayResultsRadial;
 displayResults.displayResultsLunate = displayResultsLunate;
+displayResults.displayResultsLunate2 = dataOutput;
+
 displayResults.displayResultsLBP    = displayResultsLBP;
 %displayResults. =;
 
