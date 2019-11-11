@@ -239,14 +239,14 @@ r_init      = max(1,-5+find(sum(regionBelowLunate>0,2),1,'first'));
 c_fin       = min(cols,5+find(sum(regionBelowLunate>0,1),1,'last'));
 r_fin       = min(rows,5+find(sum(regionBelowLunate>0,2),1,'last'));
 q           = imdilate((edgesArm+linesArm)>0,ones(7));
-linesMeasurement  = imdilate(q,ones(7));
+linesMeasurement  = imdilate(q,ones(15));
 dataOutput(:,:,3) = regionBelowLunate.*(1-linesMeasurement);
 dataOutput(:,:,1) = regionBelowLunate.*(1-linesMeasurement)+linesMeasurement*maxIntensity;
 dataOutput(:,:,2) = regionBelowLunate.*(1-linesMeasurement);
 dataOutput          = dataOutput/maxIntensity;
 
 outputLimits        = [c_init c_fin r_init r_fin ];
-wristWithLines1     = regionBelowLunate.*(1-q)+q*maxIntensity;
+wristWithLines1     = regionBelowLunate.*(1-q)+q*(maxIntensity*0.9);
 wristWithLines      = wristWithLines1(max(1,r_init):min(rows2,r_fin),max(1,c_init):min(cols2,c_fin));
 
 if displayData==1
