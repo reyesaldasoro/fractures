@@ -3,12 +3,16 @@ function displayXrayMetrics(displayResults,dataOut)
 
  set(gcf,'Position', [   247   168   927   780])
 subplot(241)
-imagesc(displayResults.Xray)
-    sizeDilate = 25;
-    Xray_mask2 = imdilate (displayResults.Xray_mask,ones(sizeDilate));    
-    Xray_RGB(:,:,1)     = (Xray_mask2==1)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
-    Xray_RGB(:,:,2)     = (Xray_mask2==2)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
-    Xray_RGB(:,:,3)     = (Xray_mask2==3)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
+%imagesc(displayResults.Xray)
+    sizeDilate = 55;
+    Xray_mask2          = imdilate (displayResults.Xray_mask,ones(sizeDilate));   
+    Xray_norm           = (Xray_mask2==0).*displayResults.Xray/max(displayResults.Xray(:));
+%     Xray_RGB(:,:,1)     = (Xray_mask2==1)+(Xray_mask2~=3).*());
+%     Xray_RGB(:,:,2)     = (Xray_mask2==2)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
+%     Xray_RGB(:,:,3)     = (Xray_mask2==3)+(Xray_mask2~=3).*(displayResults.Xray/max(displayResults.Xray(:)));
+    Xray_RGB(:,:,1)     = (Xray_mask2==1)+Xray_norm;
+    Xray_RGB(:,:,2)     = (Xray_mask2==2)+Xray_norm;
+    Xray_RGB(:,:,3)     = (Xray_mask2==3)+Xray_norm;
 imagesc(Xray_RGB)
 
 
