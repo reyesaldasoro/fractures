@@ -119,6 +119,8 @@ dataOut.LBP_Features        = LBP_Features;
 dataOut.widthAtCM           = widthAtCM;
 
 displayResults.Xray                 = Xray;
+displayResults.XrayR                 = XrayR;
+displayResults.XrayR2                 = XrayR2;
 displayResults.Xray_info            = Xray_info;
 displayResults.Xray_mask            = Xray_mask;
 displayResults.Xray_maskR           = Xray_maskR;
