@@ -21,7 +21,7 @@ imagesc(displayResults.XrayR2)
 title('(b)','fontsize',12)
 subplot(4,3,3)
 
-imagesc(displayResults.displayResultsLunate)
+imagesc(displayResults.displayResultsLunate2)
 title('(c)','fontsize',12)
 %% Second row, Add the results of the finger
 subplot(4,3,4)
