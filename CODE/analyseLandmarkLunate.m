@@ -1,4 +1,4 @@
-function    [edgesArm,widthAtCM,displayResultsLunate]=analyseLandmarkLunate(Xray,Xray_mask,Xray_info,currentFile,displayData)
+function    [edgesArm,widthAtCM,displayResultsLunate,dataOutput]=analyseLandmarkLunate(Xray,Xray_mask,Xray_info,currentFile,displayData)
 
 % Analyse the Xray from below the lunate to determine the level of inflammation of
 % the fracture. The data has already been rotated previously so the bones should be
@@ -238,12 +238,14 @@ c_init      = max(1,-5+find(sum(regionBelowLunate>0,1),1,'first'));
 r_init      = max(1,-5+find(sum(regionBelowLunate>0,2),1,'first'));
 c_fin       = min(cols,5+find(sum(regionBelowLunate>0,1),1,'last'));
 r_fin       = min(rows,5+find(sum(regionBelowLunate>0,2),1,'last'));
-q           = imdilate((edgesArm+linesArm)>0,ones(7));
-linesMeasurement  = imdilate(q,ones(15));
+q           = imdilate((edgesArm+linesArm)>0,ones(15,7));
+linesMeasurement  = imdilate(q,ones(7));
 dataOutput(:,:,3) = regionBelowLunate.*(1-linesMeasurement);
 dataOutput(:,:,1) = regionBelowLunate.*(1-linesMeasurement)+linesMeasurement*maxIntensity;
 dataOutput(:,:,2) = regionBelowLunate.*(1-linesMeasurement);
-dataOutput          = dataOutput/maxIntensity;
+dataOutput          = dataOutput(max(1,r_init):min(rows2,r_fin),max(1,c_init):min(cols2,c_fin),:)/maxIntensity;
+%pad with zeros to shift the image down.
+dataOutput         = [zeros(15,size(dataOutput,2),3);dataOutput];
 
 outputLimits        = [c_init c_fin r_init r_fin ];
 wristWithLines1     = regionBelowLunate.*(1-q)+q*(maxIntensity*0.9);
