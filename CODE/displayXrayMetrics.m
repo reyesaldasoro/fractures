@@ -97,18 +97,18 @@ hTit = annotation(gcf,'textbox',...
     'String',displayResults.nameFile,'interpreter','none',...
     'FitBoxToText','on','linestyle','none');
 
-allHandles.h = ha;
-allHandles.h = hb;
-allHandles.h = hc;
-allHandles.h = hd;
-allHandles.h = he;
-allHandles.h = hf;
-allHandles.h = hg;
-allHandles.h = hh;
-allHandles.h = hi;
-allHandles.h = hj;
-allHandles.h = hk;
-allHandles.h = hl;
+allHandles.ha = ha;
+allHandles.hb = hb;
+allHandles.hc = hc;
+allHandles.hd = hd;
+allHandles.he = he;
+allHandles.hf = hf;
+allHandles.hg = hg;
+allHandles.hh = hh;
+allHandles.hi = hi;
+allHandles.hj = hj;
+allHandles.hk = hk;
+allHandles.hl = hl;
 
 
 
