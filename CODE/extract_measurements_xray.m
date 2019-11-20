@@ -84,11 +84,16 @@ sizeInMM                        = [5, 5];
         gender                     = -1;
     end
 
-        initANON                        = 4+strfind(currentFile,'ANON');
+    initANON                        = 4+strfind(currentFile,'ANON');
+    if isempty(initANON)
+        
+        CaseANON                    = -1;
+    else
         finANON                         = strfind(currentFile,'_')-1;
         finANON(finANON<initANON)       = [];
         CaseANON                        = str2double(currentFile(initANON:finANON(1)));
-% Results order
+    end
+    % Results order
 % 1         CaseANON
 % 2         age
 % 3         gender
