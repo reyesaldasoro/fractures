@@ -1,20 +1,28 @@
-function   [dataOut,dataOut2,displayResults] = extract_measurements_xray(currentFile)
+function   [dataOut,dataOut2,displayResults] = extract_measurements_xray(currentFile,Xray,Xray_info,Xray_mask)
 
-
-if  isa(currentFile,'char')
-    % current file is a file name
-    currentData                     = load(currentFile);
+if nargin ==1
+    % A single input argument is received, it may be a file from where the data will
+    % be read or a struct with all the data
+    if  isa(currentFile,'char')
+        % current file is a file name
+        currentData                     = load(currentFile);
+        displayResults.nameFile         = currentFile;
+    elseif isa(currentFile,'struct')
+        % current file is a struct with the input data
+        currentData                     = currentFile;
+        displayResults.nameFile         = '';
+    end
+    
+    % allocate to current variables that will be used for saving later on
+    Xray                            = currentData.Xray;
+    Xray_info                       = currentData.Xray_info;
+    Xray_mask                       = currentData.Xray_mask;
+else
     displayResults.nameFile         = currentFile;
-elseif isa(currentFile,'struct')
-    % current file is a struct with the input data
-    currentData                     = currentFile;
-    displayResults.nameFile         = '';
+    
 end
 
-% allocate to current variables that will be used for saving later on
-Xray                            = currentData.Xray;
-Xray_info                       = currentData.Xray_info;
-Xray_mask                       = currentData.Xray_mask;
+
 if ~isfield(Xray_info,'PixelSpacing')
     Xray_info.PixelSpacing=[    0.1440;     0.1440];
 end
