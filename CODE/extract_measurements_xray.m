@@ -123,17 +123,17 @@ dataOut2 = [CaseANON age    gender    TrabecularToTotal    WidthFinger     width
             stats.std_1 stats.std_2 stats.std_ad_1 stats.std_ad_2 stats.row_LBP stats.col_LBP ...
             LBP_Features displayResultsRadial.dist_prof_1 displayResultsRadial.dist_prof_2];
         
-dataOut.age                 = age;
-dataOut.gender              = gender;
-dataOut.TrabecularToTotal   = TrabecularToTotal;
-dataOut.WidthFinger         = WidthFinger;
-dataOut.stats               = stats;
-dataOut.LBP_Features        = LBP_Features;
-dataOut.widthAtCM           = widthAtCM;
+dataOut.age                         = age;
+dataOut.gender                      = gender;
+dataOut.TrabecularToTotal           = TrabecularToTotal;
+dataOut.WidthFinger                 = WidthFinger;
+dataOut.stats                       = stats;
+dataOut.LBP_Features                = LBP_Features;
+dataOut.widthAtCM                   = widthAtCM;
 
 displayResults.Xray                 = Xray;
-displayResults.XrayR                 = XrayR;
-displayResults.XrayR2                 = XrayR2;
+displayResults.XrayR                = XrayR;
+displayResults.XrayR2               = XrayR2;
 displayResults.Xray_info            = Xray_info;
 displayResults.Xray_mask            = Xray_mask;
 displayResults.Xray_maskR           = Xray_maskR;
