@@ -37,14 +37,15 @@ for kk=3:numResults
 
     % This is Pre-MUA v Post-MUA
     [h,p,ci,stats] = ttest2(results(results(:,numResults)==1,kk),results(results(:,numResults)==3,kk));
-    statDifferencePaper(4,kk)=p;
+    statDifferencePaper(6,kk)=p;
     % This is Pre ORIF v Post-ORIF
     [h,p,ci,stats] = ttest2(results(results(:,numResults)==2,kk),results(results(:,numResults)==4,kk));
-    statDifferencePaper(5,kk)=p;
+    statDifferencePaper(7,kk)=p;
     
     
 end
-%save results_2019_10_11 results statDifference numResults
+ clear p ci h kk
+save results_2019_12_02 results statDifference* numResults
 %%
 kk=4;
 case1 = 1;
@@ -54,7 +55,14 @@ case2 = 2;
 boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
 title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifferencePaper(case2/2,kk))));
 %%
-plot(3:numResults-1,statDifferencePaper(1,3:end-1),'b-o',3:numResults-1,statDifferencePaper(2,3:end-1),'r-x',3:numResults-1,statDifferencePaper(3,3:end-1),'m-d',3:numResults-1,statDifferencePaper(4,3:end-1),'k-v',[1 numResults],[0.05 0.05],'k-');grid on
+plot(3:numResults-1,statDifferencePaper(1,3:end-1),'b-o',...
+     3:numResults-1,statDifferencePaper(2,3:end-1),'r-x',...
+     3:numResults-1,statDifferencePaper(3,3:end-1),'m-d',...
+     3:numResults-1,statDifferencePaper(4,3:end-1),'k-v',...
+     3:numResults-1,statDifferencePaper(5,3:end-1),'c--d',...
+     3:numResults-1,statDifferencePaper(6,3:end-1),'y--*',...
+     3:numResults-1,statDifferencePaper(7,3:end-1),'g--+',...
+     [1 numResults],[0.05 0.05],'k-');grid on
 legend({'Pre 0 v 1','Post 0 v 1','Norm v pat','Pre v Post'})
 
 xlabel('Number Metric')
@@ -130,41 +138,4 @@ set(gca,'XTickLabel',{'Pre_0','Pre_1','Post_0','Post_1','Norm'})
 filename=strcat('Box_Metric_',num2str(kk),'.png');
 
 %%
-%  load('FracturesXray_FileDirectory_2018_03_26.mat')
-% numXrays                            = size(results,1);
-% for k=1:numXrays
-%
-%     patientID       = results(k,1);
-%     tempValue       =([XrayDir3.PatientID2]==patientID);
-%     if sum(tempValue)>=1
-%         caseXray    = find(tempValue);
-%         if ~isempty(XrayDir3(caseXray(1)).JointClinicalOutcome)
-%             results(k,4) = XrayDir3(caseXray(1)).JointClinicalOutcome;
-%         else
-%             results(k,4) = -1;
-%         end
-%     end
-% end
-% %%
-% k1=23;k2=18;
-% men=find(results(:,3)==0);
-% women=find(results(:,3)==1);
-%
-% hold off
-% scatter3(results(men,4),results(men,k1),results(men,k2),'markeredgecolor','r')
-% hold on
-% scatter3(results(women,4),results(women,k1),results(women,k2),'markeredgecolor','b')
-%
-% %%
-%
-% %%
-% k1=20;k2=13;
-% Suc     =find(results(:,4)==1);
-% Unsuc   =find(results(:,4)==0);
-%
-% hold off
-% scatter3(results(Suc,2),results(Suc,k1),results(Suc,k2),'markeredgecolor','r')
-% hold on
-% scatter3(results(Unsuc,2),results(Unsuc,k1),results(Unsuc,k2),'markeredgecolor','b')
-% [h,p,ci]=ttest2(results(Suc,k1),results(Unsuc,k1));
-% title(num2str(p))
+
