@@ -111,17 +111,24 @@ Post_1_done(67)=0;
 AllCasesANON_done = [Pre_0_done;Pre_1_done;Post_0_done;Post_1_done];
 %%
 % calculate p values
-statDifference(2,numResults) = 0;
+statDifferencePaper(2,numResults) = 0;
 
 for kk=3:numResults
-    [h,p,ci,stats] = ttest2(results(results(:,numResults)==1,kk),results(results(:,numResults)==2,kk));
-    statDifference(1,kk)=p;
-    [h,p,ci,stats] = ttest2(results(results(:,numResults)==3,kk),results(results(:,numResults)==4,kk));
-    statDifference(2,kk)=p;
+    % this is healthy v patients
     [h,p,ci,stats] = ttest2(results(results(:,numResults)==5,kk),results( (results(:,numResults)>0)&(results(:,numResults)<5)  ,kk));
-    statDifference(3,kk)=p;
+    statDifferencePaper(1,kk)=p;
+    % This is PRE - Post
     [h,p,ci,stats] = ttest2(results( (results(:,numResults)==1)|(results(:,numResults)==2)   ,kk),results( (results(:,numResults)==3)|(results(:,numResults)==4)  ,kk));
-    statDifference(4,kk)=p;
+    statDifferencePaper(2,kk)=p;
+    % This is MUA - ORIF 
+    [h,p,ci,stats] = ttest2(results( (results(:,numResults)==1)|(results(:,numResults)==3)   ,kk),results( (results(:,numResults)==2)|(results(:,numResults)==4)  ,kk));
+    statDifferencePaper(3,kk)=p;
+    % This is Pre-MUA v Pre ORIF
+    [h,p,ci,stats] = ttest2(results(results(:,numResults)==1,kk),results(results(:,numResults)==2,kk));
+    statDifferencePaper(4,kk)=p;
+    % This is Post-MUA v Post-ORIF
+    [h,p,ci,stats] = ttest2(results(results(:,numResults)==3,kk),results(results(:,numResults)==4,kk));
+    statDifferencePaper(5,kk)=p;
     
 end
 %save results_2019_10_11 results statDifference numResults
@@ -132,9 +139,9 @@ case1 = 1;
 case2 = 2;
 
 boxplot([results(results(:,numResults)==case1,kk);results(results(:,numResults)==case2,kk)],[results(results(:,numResults)==case1,numResults);results(results(:,numResults)==case2,numResults)])
-title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifference(case2/2,kk))));
+title (strcat('Metric= ',num2str(kk),', p= ',num2str(statDifferencePaper(case2/2,kk))));
 %%
-plot(3:numResults-1,statDifference(1,3:end-1),'b-o',3:numResults-1,statDifference(2,3:end-1),'r-x',3:numResults-1,statDifference(3,3:end-1),'m-d',3:numResults-1,statDifference(4,3:end-1),'k-v',[1 numResults],[0.05 0.05],'k-');grid on
+plot(3:numResults-1,statDifferencePaper(1,3:end-1),'b-o',3:numResults-1,statDifferencePaper(2,3:end-1),'r-x',3:numResults-1,statDifferencePaper(3,3:end-1),'m-d',3:numResults-1,statDifferencePaper(4,3:end-1),'k-v',[1 numResults],[0.05 0.05],'k-');grid on
 legend({'Pre 0 v 1','Post 0 v 1','Norm v pat','Pre v Post'})
 
 xlabel('Number Metric')
@@ -190,7 +197,7 @@ case1 = 1;
 case2 = 3;
 
 boxplot(results(results(:,numResults)>0,kk), results(results(:,numResults)>0,numResults));
-title (strcat('Metric= ',num2str(kk),'; ',32,32,nameMetrics{kk},',  p= ',num2str(statDifference(case2,kk))),'interpreter','none');
+title (strcat('Metric= ',num2str(kk),'; ',32,32,nameMetrics{kk},',  p= ',num2str(statDifferencePaper(case2,kk))),'interpreter','none');
 grid on
 set(gca,'XTickLabel',{'Pre_0','Pre_1','Post_0','Post_1','Norm'})
 filename=strcat('Box_Metric_',num2str(kk),'.png');
@@ -204,7 +211,7 @@ case1 = 1;
 case2 = 3;
 
 boxplot(results(results(:,numResults)>0,kk), results(results(:,numResults)>0,numResults));
-title (strcat('Metric= ',num2str(kk),'; ',32,32,nameMetrics{kk},',  p= ',num2str(statDifference(case2,kk))),'interpreter','none');
+title (strcat('Metric= ',num2str(kk),'; ',32,32,nameMetrics{kk},',  p= ',num2str(statDifferencePaper(case2,kk))),'interpreter','none');
 grid on
 set(gca,'XTickLabel',{'Pre_0','Pre_1','Post_0','Post_1','Norm'})
 filename=strcat('Box_Metric_',num2str(kk),'.png');
