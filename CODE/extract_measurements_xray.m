@@ -42,20 +42,21 @@ displayData =0;
 % central finger
 [TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,currentFile,displayData);
 
-% Determine two profiles from the radial styloid to the edge of the radius at 30
-% and 45 degrees below the line between the radial styloid and the lunate
-[stats,displayResultsRadial]   = analyseLandmarkRadial (XrayR,Xray_maskR,Xray_info,currentFile,displayData);
-
 % Determine the profiles of bones and arm below the lunate to distinguish
 % inflammation of the arm, but first remove the edges of the collimator
 XrayR2                          = removeEdgesCollimator2(XrayR,70);
+% Determine two profiles from the radial styloid to the edge of the radius at 30
+% and 45 degrees below the line between the radial styloid and the lunate
+[stats,displayResultsRadial]   = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,currentFile,displayData);
+
+
 [AreaInflammation,widthAtCM,displayResultsLunate,dataOutput]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,currentFile,displayData);
 %set(gcf,'position',[321         381        1000         400]);
 
 % Add the texture analysis previously done by Greg and Julia select automatically
 % a point drawn from the profiles
 sizeInMM                        = [5, 5];
-[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
 
 %     
 %     % Collect all the metrics extracted
