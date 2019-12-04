@@ -29,6 +29,9 @@ Post_1(maxCases)=0;
 Post_0(maxCases)=0;
 Norm(maxCases)=0;
 
+
+
+
 AllCasesANON = [Pre_0;Pre_1;Post_0;Post_1;Norm];
 
 %% Read the file, this can be done iteratively by changing "k"
