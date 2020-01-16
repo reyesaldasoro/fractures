@@ -17,6 +17,7 @@ numFolders_0 = size(dir0,1);
 
 
 
+
 %
 % It is not good idea to use either i,j as variables as these can refer to
 % imaginary numbers, better to use names like counter_0
