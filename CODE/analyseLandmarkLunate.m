@@ -13,10 +13,12 @@ if ~isfield(Xray_info,'PixelSpacing')
 end
 
 
+%comment
+
+
 %minIntensity = min(Xray2(:));
 Xray_maskP                              = regionprops(Xray_mask,Xray,'Area','Centroid','meanIntensity');
 %    Xray_maskP2                        = regionprops(imdilate(Xray_mask,ones(70)),Xray,'Area','Centroid','meanIntensity','minIntensity','maxIntensity');
-
 
 % Remove zeros from the xrays as these may come from the rotations, this is important
 % when finding the minimum values of the Xray which are not zeros.
