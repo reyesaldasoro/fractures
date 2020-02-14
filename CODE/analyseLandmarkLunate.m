@@ -12,10 +12,6 @@ if ~isfield(Xray_info,'PixelSpacing')
     Xray_info.PixelSpacing=[    0.1440;     0.1440];
 end
 
-
-%comment
-
-
 %minIntensity = min(Xray2(:));
 Xray_maskP                              = regionprops(Xray_mask,Xray,'Area','Centroid','meanIntensity');
 %    Xray_maskP2                        = regionprops(imdilate(Xray_mask,ones(70)),Xray,'Area','Centroid','meanIntensity','minIntensity','maxIntensity');
