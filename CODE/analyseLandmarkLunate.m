@@ -29,6 +29,9 @@ Xray_nans                               = Xray;
 Xray_nans(Xray<=sortedValues_Xray(2))   = nan;
 
 
+
+
+
 % Remove those pixels that are EXACTLY the maximum intensity, most likely they are
 % the indications of left-right
 maxIntensity                            = max(Xray(:));
