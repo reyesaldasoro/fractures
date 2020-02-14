@@ -252,6 +252,10 @@ outputLimits        = [c_init c_fin r_init r_fin ];
 wristWithLines1     = regionBelowLunate.*(1-q)+q*(maxIntensity*0.9);
 wristWithLines      = wristWithLines1(max(1,r_init):min(rows2,r_fin),max(1,c_init):min(cols2,c_fin));
 
+
+
+
+
 if displayData==1
     
     %     figure
