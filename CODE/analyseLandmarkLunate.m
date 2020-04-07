@@ -1,4 +1,4 @@
-function    [edgesArm,widthAtCM,displayResultsLunate,dataOutput]=analyseLandmarkLunate(Xray,Xray_mask,Xray_info,currentFile,displayData)
+function    [edgesArm,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]=analyseLandmarkLunate(Xray,Xray_mask,Xray_info,currentFile,displayData)
 
 % Analyse the Xray from below the lunate to determine the level of inflammation of
 % the fracture. The data has already been rotated previously so the bones should be
@@ -287,6 +287,8 @@ if displayData==1
 end
 
 displayResultsLunate        = wristWithLines;
+coordinatesArm = [(rLunate-CmInPixels )+([r_init r_fin]) c_init c_fin];
+
 %figure(3)
 %imagesc(Xray)
 %colormap gray
