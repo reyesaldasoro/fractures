@@ -38,6 +38,8 @@ sizeDilate = 55;
     Xray_RGB(:,:,2)     = (Xray_mask2==2)+Xray_norm;
     Xray_RGB(:,:,3)     = (Xray_mask2==3)+Xray_norm;
     
+    
+    
 % Number of steps
 numSteps = 20;
 stepAnim = 1/numSteps;
@@ -72,11 +74,54 @@ for k=0:stepAnim:1
     pause(0.01)    
 end
 
+rr=displayResults.coordinatesArm(1):displayResults.coordinatesArm(2);
+cc=displayResults.coordinatesArm(3):displayResults.coordinatesArm(4);
+
+%% Zoom towards the lunate region
+
+stepsRowsDown   = round(linspace(1,displayResults.coordinatesArm(1),numSteps));
+stepsRowsUp     = round(linspace(rowsPos,displayResults.coordinatesArm(2),numSteps));
+stepsColsDown   = round(linspace(1,displayResults.coordinatesArm(3),numSteps));
+stepsColsUp     = round(linspace(colsPos,displayResults.coordinatesArm(4),numSteps));
+
+
 imagesc(displayResults.XrayR2)
+
+for k=1:numSteps
+    axis([ stepsColsDown(k) stepsColsUp(k) stepsRowsDown(k) stepsRowsUp(k) ])  
+    drawnow
+    pause(0.01)    
+end
+
+diffLunates =  size(displayResults.displayResultsLunate2,1)-size(displayResults.displayResultsLunate,1);
+
+rr2=displayResults.coordinatesArm(1)-diffLunates:displayResults.coordinatesArm(2);
+
+X_rayLunate = repmat(displayResults.XrayR2(rr2,cc)/max(max(displayResults.XrayR2(rr2,cc))),[1 1 3]);
+%  animation, add lines
+for k=0:stepAnim:1
+    imagesc(k*displayResults.displayResultsLunate2+(1-k)*X_rayLunate)
+    drawnow
+    pause(0.01)    
+end
+
+imagesc(displayResults.XrayR2)
+
+for k=numSteps:-1:1
+    axis([ stepsColsDown(k) stepsColsUp(k) stepsRowsDown(k) stepsRowsUp(k) ])  
+    drawnow
+    pause(0.01)    
+end
+
+
+
+imagesc(displayResults.XrayR2(rr:cc))
+
+
 title('(b)','fontsize',12)
 hc = subplot(4,3,3)
 
-imagesc(displayResults.displayResultsLunate2)
+imagesc(displayResults.displayResultsLunate)
 title('(c)','fontsize',12)
 %% Second row, Add the results of the finger
 hd = subplot(4,3,4)
