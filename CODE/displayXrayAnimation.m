@@ -21,18 +21,18 @@ else
     return;
 end
 
-
+cFrame =1;
 
 % First row, the original image, plus landmarks, rotation and lines of width
 set(gcf,'Position', [   1000 500 500 400])
 clf
 handleAx = subplot(4,4,1);
 imagesc(displayResults.Xray)
-handleAx_2=subplot(4,4,4);
-handleAx_2.Visible='off';
+
 handleAx_3=subplot(4,4,3);
 handleAx_3.Visible='off';
-
+handleAx_2=subplot(4,4,4);
+handleAx_2.Visible='off';
 handleAx.Position=[0.1 0.1 0.8 0.8];
 
 
@@ -41,7 +41,7 @@ colormap gray
 
 Xray_gray               = repmat(displayResults.XrayR2./max(displayResults.XrayR2(:)),[1 1 3]);
 
-sizeDilate = 55;
+sizeDilate = 35;
     Xray_mask2          = imdilate (displayResults.Xray_mask,ones(sizeDilate));   
     Xray_norm           = (Xray_mask2==0).*displayResults.Xray/max(displayResults.Xray(:));
     Xray_RGB(:,:,1)     = (Xray_mask2==1)+Xray_norm;
@@ -56,7 +56,7 @@ sizeDilate = 55;
     
 coords_landmarks =  regionprops(Xray_maskR2,'Centroid');    
 % Number of steps
-numSteps = 8;
+numSteps = 20;
 stepAnim = 1/numSteps;
 
 
@@ -84,12 +84,12 @@ end
 
 
 % second animation, add the manual landmarks
-for k=0:stepAnim:1
+for k=0:2*stepAnim:1
     handleAx.Children.CData = (k*Xray_RGBR+(1-k)*Xray_gray);
     drawnow
     pause(0.01)    
 end
-for k=0:stepAnim:1
+for k=0:2*stepAnim:1
      handleAx.Children.CData = ((1-k)*Xray_RGBR+(k)*Xray_gray);
     drawnow
     pause(0.01)    
@@ -270,84 +270,97 @@ end
 
 
 
+
+handleAx_2.Position=[0.1 0.7 0.8 0.2];
 hold on
-hPlot2=plot(displayResults.displayResultsRadial.prof_radial_new1,'r');
-      hPlot2.Visible='on';drawnow;pause(0.1) 
-
-hPlot3=plot(displayResults.displayResultsRadial.prof_radial_new2,'b');
-    hPlot3.Visible='on'; drawnow;pause(0.1) 
-
-hPlot2.Visible='off'; drawnow;pause(0.1) 
-hPlot3.Visible='off'; drawnow;pause(0.1) 
-
-
-%% Third row,  add the LBP Results
-hg = subplot(4,3,7)
-imagesc(displayResults.displayResultsLBP.Xray_out)
-% zoom in a little bit
-[rows,cols,levs]=size(displayResults.displayResultsLBP.Xray_out);
- axis(round([0.2*cols 0.8*cols 0.3*rows 0.9*rows ]))
-title('(g)','fontsize',12)
-
-hh = subplot(4,3,8)
-imagesc(displayResults.displayResultsLBP.PatchExtracted)
-title('(h)','fontsize',12)
-
-hi = subplot(4,3,9)
-bar(dataOut.LBP_Features)
+hPlot3_1=plot(displayResults.displayResultsRadial.prof_radial_new1,'r');
 axis tight
-grid on
-title('(i)','fontsize',12)
+    drawnow;pause(0.1)  
+hPlot3_2=plot(displayResults.displayResultsRadial.prof_radial_new2,'b');
+    drawnow;pause(0.1)  
+%% Thicken the lines
+hPlot3_1.LineWidth = 1;   
+    drawnow;pause(0.1)  
+hPlot3_2.LineWidth = 1;   
+    drawnow;pause(0.1)  
+hPlot3_1.LineWidth = 2;   
+    drawnow;pause(0.1)  
+hPlot3_2.LineWidth = 2;   
+    drawnow;pause(0.1) 
+hPlot3_1.LineWidth = 1;   
+    drawnow;pause(0.1)  
+hPlot3_2.LineWidth = 1;   
+    drawnow;pause(0.1) 
+hPlot3_1.LineWidth = 0.5;   
+    drawnow;pause(0.1)  
+hPlot3_2.LineWidth = 0.5;   
+    drawnow;pause(0.1)     
+    
+hPlot3_2.Visible = 'off';    
 
-%% Fourth row add the profiles
-hj = subplot(4,3,10)
-imagesc(displayResults.displayResultsRadial.dataOutput)
-% zoom in a little bit
-[rows,cols,levs]=size(displayResults.displayResultsRadial.dataOutput);
- axis(round([0.2*cols 0.8*cols 0.3*rows 0.9*rows ]))
-title('(j)','fontsize',12)
+hPlot3_1.Visible = 'off';   
 
-hk = subplot(4,3,11)
-hold off
-plot(displayResults.displayResultsRadial.prof_radial_new1,'r')
-hold on
-plot(displayResults.displayResultsRadial.prof_radial_new2,'b')
-grid on
-axis tight
-title('(k)','fontsize',12)
-
-hl = subplot(4,3,12)
-hold off
-plot(displayResults.displayResultsRadial.prof2_radial_new1,'r')
-hold on
-plot(displayResults.displayResultsRadial.prof2_radial_new2,'b')
-grid on
-axis tight
-title('(l)','fontsize',12)
-% Add the lines
-%h = subplot(2,4,5)
-%imagesc(displayResults.displayResultsLunate)
-
-
-
-hTit = annotation(gcf,'textbox',...
-    [0.345199568500538 0.955709957258268 0.327939580623643 0.0292207786724681],...
-    'String',displayResults.nameFile,'interpreter','none',...
-    'FitBoxToText','on','linestyle','none');
-
-allHandles.ha = ha;
-allHandles.hb = hb;
-allHandles.hc = hc;
-allHandles.hd = hd;
-allHandles.he = he;
-allHandles.hf = hf;
-allHandles.hg = hg;
-allHandles.hh = hh;
-allHandles.hi = hi;
-allHandles.hj = hj;
-allHandles.hk = hk;
-allHandles.hl = hl;
+%% Zoom out
+for k=numSteps:-1:1
+  %  axis([ stepsColsDown(k) stepsColsUp(k) stepsRowsDown(k) stepsRowsUp(k) ])  
+        handleAx.YLim(1) = stepsRowsDown(k);
+    handleAx.YLim(2) = stepsRowsUp(k);
+    handleAx.XLim(1) = stepsColsDown(k);
+    handleAx.XLim(2) = stepsColsUp(k); 
+  
+    drawnow
+    pause(0.01)    
+end
+%% Final, add the ROI 
 
 
+%  animation, profiles
+for k=0:stepAnim:1
+    handleAx.Children.CData =((1-k)*displayResults.displayResultsRadial.dataOutput+(k)*displayResults.displayResultsLBP.Xray_out);
+    drawnow
+    pause(0.1)    
+end
 
-%title(displayResults.nameFile,'interpreter','none')
+% zoom in
+for k=1:numSteps
+  %  axis([ stepsColsDown(k) stepsColsUp(k) stepsRowsDown(k) stepsRowsUp(k) ])  
+        handleAx.YLim(1) = stepsRowsDown(k);
+    handleAx.YLim(2) = stepsRowsUp(k);
+    handleAx.XLim(1) = stepsColsDown(k);
+    handleAx.XLim(2) = stepsColsUp(k); 
+  
+    drawnow
+    pause(0.01)    
+end
+
+handleAx_2.Position=[0.1 0.1 0.8 0.2];
+handleAx_2.Visible = 'on';
+    drawnow;pause(0.1)  
+handleAx_2.XTick=[1:10];
+handleAx_2.YTick=[1:10]/10;
+handleAx_2.YTick=[2:2:10]/10;
+handleAx_2.YTickLabel=[];
+handleAx_2.XTickLabel=[];
+hPlot4_1=bar(dataOut.LBP_Features);
+    drawnow;pause(0.1)  
+handleAx_2.XGrid='on';     
+    drawnow;pause(0.1)      
+handleAx_2.YGrid='on';     
+    drawnow;pause(0.1) 
+    drawnow;pause(0.1) 
+    drawnow;pause(0.1) 
+    
+    
+handleAx_2.Visible = 'off';
+hPlot4_1.Visible = 'off';
+%% Zoom out
+for k=numSteps:-1:1
+  %  axis([ stepsColsDown(k) stepsColsUp(k) stepsRowsDown(k) stepsRowsUp(k) ])  
+        handleAx.YLim(1) = stepsRowsDown(k);
+    handleAx.YLim(2) = stepsRowsUp(k);
+    handleAx.XLim(1) = stepsColsDown(k);
+    handleAx.XLim(2) = stepsColsUp(k); 
+  
+    drawnow
+    pause(0.01)    
+end
