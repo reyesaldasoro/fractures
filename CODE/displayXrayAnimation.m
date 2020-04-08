@@ -24,7 +24,8 @@ end
 cFrame =1;
 
 % First row, the original image, plus landmarks, rotation and lines of width
-set(gcf,'Position', [   1000 500 500 400])
+h0=figure(1);
+set(h0,'Position', [   1000 500 500 400])
 clf
 handleAx = subplot(4,4,1);
 imagesc(displayResults.Xray)
@@ -33,7 +34,7 @@ handleAx_3=subplot(4,4,3);
 handleAx_3.Visible='off';
 handleAx_2=subplot(4,4,4);
 handleAx_2.Visible='off';
-handleAx.Position=[0.1 0.1 0.8 0.8];
+handleAx.Position=[0.0 0.0 1 1];
 
 
 
@@ -41,7 +42,7 @@ colormap gray
 
 Xray_gray               = repmat(displayResults.XrayR2./max(displayResults.XrayR2(:)),[1 1 3]);
 
-sizeDilate = 35;
+sizeDilate = 45;
     Xray_mask2          = imdilate (displayResults.Xray_mask,ones(sizeDilate));   
     Xray_norm           = (Xray_mask2==0).*displayResults.Xray/max(displayResults.Xray(:));
     Xray_RGB(:,:,1)     = (Xray_mask2==1)+Xray_norm;
@@ -56,7 +57,7 @@ sizeDilate = 35;
     
 coords_landmarks =  regionprops(Xray_maskR2,'Centroid');    
 % Number of steps
-numSteps = 20;
+numSteps = 15;
 stepAnim = 1/numSteps;
 
 
@@ -76,7 +77,7 @@ Xray_preRot (diffRows:diffRows+rowsPre-1,diffCols:diffCols+colsPre-1) = displayR
 % Second animation, the rotation process
 for k=0:stepAnim:1
      handleAx.Children.CData =(k*displayResults.XrayR2+(1-k)*Xray_preRot);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -86,12 +87,12 @@ end
 % second animation, add the manual landmarks
 for k=0:2*stepAnim:1
     handleAx.Children.CData = (k*Xray_RGBR+(1-k)*Xray_gray);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 for k=0:2*stepAnim:1
      handleAx.Children.CData = ((1-k)*Xray_RGBR+(k)*Xray_gray);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -115,7 +116,7 @@ for k=1:numSteps
     handleAx.YLim(2) = stepsRowsUp(k);
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -130,9 +131,9 @@ handleAx.XLim(1) = 1;
 handleAx.XLim(2) = numel(cc);
 handleAx.YLim(2) = numel(rr2);
     
-for k=0:stepAnim:1
+for k=0:2*stepAnim:1
      handleAx.Children.CData =(k*displayResults.displayResultsLunate2+(1-k)*X_rayLunate);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -148,7 +149,7 @@ for k=numSteps:-1:1
     handleAx.YLim(2) = stepsRowsUp(k);
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -170,7 +171,7 @@ for k=1:numSteps
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
   
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -187,9 +188,9 @@ handleAx.YLim(1) = 1;
 handleAx.XLim(2) = cFinger2;
 handleAx.YLim(2) = rFinger2;
 %  animation, finger
-for k=0:stepAnim:1
+for k=0:2*stepAnim:1
     handleAx.Children.CData =(k*displayResults.displayResultsFinger.Combined+(1-k)*finger2);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.1)    
 end
 
@@ -204,28 +205,28 @@ handleAx_2.Visible='off';
 handleAx_2.XTick=[];
 handleAx_2.YTick=[];
 axis tight
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 %handleAx_2.
 hold on
 hPlot2=plot(displayResults.displayResultsFinger.centValleyLoc,displayResults.displayResultsFinger.centValley,'ro','markersize',8);
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 hPlot3=plot(displayResults.displayResultsFinger.leftPeakLoc,displayResults.displayResultsFinger.leftPeak,'b*','markersize',8);
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 hPlot4=plot(displayResults.displayResultsFinger.rightPeakLoc,displayResults.displayResultsFinger.rightPeak,'b*','markersize',8);
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 hPlot5=plot(displayResults.displayResultsFinger.leftEdgeLoc,displayResults.displayResultsFinger.leftEdge,'md','markersize',8);
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 hPlot6=plot(displayResults.displayResultsFinger.rightEdgeLoc,displayResults.displayResultsFinger.rightEdge,'md','markersize',8);
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 
 
 
-hPlot2.Visible='off'; drawnow;pause(0.1) 
-hPlot3.Visible='off'; drawnow;pause(0.1) 
-hPlot4.Visible='off'; drawnow;pause(0.1) 
-hPlot5.Visible='off'; drawnow;pause(0.1) 
-hPlot6.Visible='off'; drawnow;pause(0.1) 
-hPlot1.Visible='off'; drawnow;pause(0.1) 
+hPlot2.Visible='off'; drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+hPlot3.Visible='off'; drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+hPlot4.Visible='off'; drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+hPlot5.Visible='off'; drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+hPlot6.Visible='off'; drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+hPlot1.Visible='off'; drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 
 %%
  handleAx.Children.CData =(Xray_RGBR);
@@ -236,7 +237,7 @@ for k=numSteps:-1:1
         handleAx.YLim(1) = stepsRowsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
         handleAx.XLim(1) = stepsColsDown(k);  
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
@@ -257,14 +258,14 @@ for k=1:numSteps
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
   
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
 %  animation, profiles
-for k=0:stepAnim:1
+for k=0:2*stepAnim:1
     handleAx.Children.CData =(k*displayResults.displayResultsRadial.dataOutput+(1-k)*Xray_RGBR);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.1)    
 end
 
@@ -275,26 +276,26 @@ handleAx_2.Position=[0.1 0.7 0.8 0.2];
 hold on
 hPlot3_1=plot(displayResults.displayResultsRadial.prof_radial_new1,'r');
 axis tight
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 hPlot3_2=plot(displayResults.displayResultsRadial.prof_radial_new2,'b');
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 %% Thicken the lines
 hPlot3_1.LineWidth = 1;   
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 hPlot3_2.LineWidth = 1;   
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 hPlot3_1.LineWidth = 2;   
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 hPlot3_2.LineWidth = 2;   
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 hPlot3_1.LineWidth = 1;   
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 hPlot3_2.LineWidth = 1;   
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
 hPlot3_1.LineWidth = 0.5;   
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 hPlot3_2.LineWidth = 0.5;   
-    drawnow;pause(0.1)     
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)     
     
 hPlot3_2.Visible = 'off';    
 
@@ -308,16 +309,16 @@ for k=numSteps:-1:1
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
   
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 %% Final, add the ROI 
 
 
 %  animation, profiles
-for k=0:stepAnim:1
+for k=0:2*stepAnim:1
     handleAx.Children.CData =((1-k)*displayResults.displayResultsRadial.dataOutput+(k)*displayResults.displayResultsLBP.Xray_out);
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.1)    
 end
 
@@ -329,26 +330,26 @@ for k=1:numSteps
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
   
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
 
 handleAx_2.Position=[0.1 0.1 0.8 0.2];
 handleAx_2.Visible = 'on';
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 handleAx_2.XTick=[1:10];
 handleAx_2.YTick=[1:10]/10;
 handleAx_2.YTick=[2:2:10]/10;
 handleAx_2.YTickLabel=[];
 handleAx_2.XTickLabel=[];
 hPlot4_1=bar(dataOut.LBP_Features);
-    drawnow;pause(0.1)  
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)  
 handleAx_2.XGrid='on';     
-    drawnow;pause(0.1)      
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1)      
 handleAx_2.YGrid='on';     
-    drawnow;pause(0.1) 
-    drawnow;pause(0.1) 
-    drawnow;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;pause(0.1) 
     
     
 handleAx_2.Visible = 'off';
@@ -361,6 +362,26 @@ for k=numSteps:-1:1
     handleAx.XLim(1) = stepsColsDown(k);
     handleAx.XLim(2) = stepsColsUp(k); 
   
-    drawnow
+    drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
+allHandles = F;
+
+%% Save as mp4
+            v = VideoWriter('AnimationXray.mp4', 'MPEG-4');
+            open(v);
+            writeVideo(v,F);
+            close(v);
+            
+                %% save the movie as a GIF
+    [imGif,mapGif] = rgb2ind(F(1).cdata,256,'nodither');
+    numFrames = size(F,2);
+
+    imGif(1,1,1,numFrames) = 0;
+    for k = 2:numFrames 
+      imGif(:,:,1,k) = rgb2ind(F(k).cdata,mapGif,'nodither');
+    end
+    %%
+
+    imwrite(imGif,mapGif,'AnimationXray.gif','DelayTime',0,'LoopCount',inf); 
+            
