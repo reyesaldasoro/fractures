@@ -28,15 +28,18 @@ set(gcf,'Position', [   1000 500 500 400])
 clf
 handleAx = subplot(4,4,1);
 imagesc(displayResults.Xray)
-handleSecAx=subplot(4,4,4);
-handleSecAx.Visible='off';
+handleAx_2=subplot(4,4,4);
+handleAx_2.Visible='off';
+handleAx_3=subplot(4,4,3);
+handleAx_3.Visible='off';
+
 handleAx.Position=[0.1 0.1 0.8 0.8];
 
 
 
 colormap gray
 
-Xray_gray               = repmat(displayResults.Xray./max(displayResults.Xray(:)),[1 1 3]);
+Xray_gray               = repmat(displayResults.XrayR2./max(displayResults.XrayR2(:)),[1 1 3]);
 
 sizeDilate = 55;
     Xray_mask2          = imdilate (displayResults.Xray_mask,ones(sizeDilate));   
@@ -53,20 +56,11 @@ sizeDilate = 55;
     
 coords_landmarks =  regionprops(Xray_maskR2,'Centroid');    
 % Number of steps
-numSteps = 20;
+numSteps = 8;
 stepAnim = 1/numSteps;
 
-% First animation, add the manual landmarks
-for k=0:stepAnim:1
-    handleAx.Children.CData = (k*Xray_RGB+(1-k)*Xray_gray);
-    drawnow
-    pause(0.01)    
-end
-for k=0:stepAnim:1
-     handleAx.Children.CData = ((1-k)*Xray_RGB+(k)*Xray_gray);
-    drawnow
-    pause(0.01)    
-end
+
+
 
 [rowsPre,colsPre,levsPre] = size(displayResults.Xray);
 [rowsPos,colsPos,levsPos] = size(displayResults.XrayR);
@@ -85,6 +79,22 @@ for k=0:stepAnim:1
     drawnow
     pause(0.01)    
 end
+
+
+
+
+% second animation, add the manual landmarks
+for k=0:stepAnim:1
+    handleAx.Children.CData = (k*Xray_RGBR+(1-k)*Xray_gray);
+    drawnow
+    pause(0.01)    
+end
+for k=0:stepAnim:1
+     handleAx.Children.CData = ((1-k)*Xray_RGBR+(k)*Xray_gray);
+    drawnow
+    pause(0.01)    
+end
+
 
 rr=displayResults.coordinatesArm(1):displayResults.coordinatesArm(2);
 cc=displayResults.coordinatesArm(3):displayResults.coordinatesArm(4);
@@ -187,15 +197,15 @@ end
 
 
 
-handleSecAx.Visible='off';
-handleSecAx.Position=[0.1 0.1 0.8 0.2];
+handleAx_2.Visible='off';
+handleAx_2.Position=[0.1 0.1 0.8 0.2];
 hPlot1=plot(displayResults.displayResultsFinger.CorticalProfile{1},'g','linewidth',3);
-handleSecAx.Visible='off';
-handleSecAx.XTick=[];
-handleSecAx.YTick=[];
+handleAx_2.Visible='off';
+handleAx_2.XTick=[];
+handleAx_2.YTick=[];
 axis tight
     drawnow;pause(0.1)  
-%handleSecAx.
+%handleAx_2.
 hold on
 hPlot2=plot(displayResults.displayResultsFinger.centValleyLoc,displayResults.displayResultsFinger.centValley,'ro','markersize',8);
     drawnow;pause(0.1) 
@@ -233,10 +243,42 @@ end
 
 %% zoom into styloid
 
-stepsRowsDown   = round(linspace(1,displayResults.displayResultsFinger.rr(1),numSteps));
-stepsRowsUp     = round(linspace(rowsPos,displayResults.displayResultsFinger.rr(end),numSteps));
-stepsColsDown   = round(linspace(1,displayResults.displayResultsFinger.cc(1),numSteps));
-stepsColsUp     = round(linspace(colsPos,displayResults.displayResultsFinger.cc(end),numSteps));
+stepsRowsDown   = round(linspace(1,coords_landmarks(2).Centroid(2)-200,numSteps));
+stepsRowsUp     = round(linspace(rowsPos,coords_landmarks(2).Centroid(2)+500,numSteps));
+stepsColsDown   = round(linspace(1,coords_landmarks(2).Centroid(1)-400,numSteps));
+stepsColsUp     = round(linspace(colsPos,coords_landmarks(2).Centroid(1)+200,numSteps));
+
+
+% zoom in
+for k=1:numSteps
+  %  axis([ stepsColsDown(k) stepsColsUp(k) stepsRowsDown(k) stepsRowsUp(k) ])  
+        handleAx.YLim(1) = stepsRowsDown(k);
+    handleAx.YLim(2) = stepsRowsUp(k);
+    handleAx.XLim(1) = stepsColsDown(k);
+    handleAx.XLim(2) = stepsColsUp(k); 
+  
+    drawnow
+    pause(0.01)    
+end
+
+%  animation, profiles
+for k=0:stepAnim:1
+    handleAx.Children.CData =(k*displayResults.displayResultsRadial.dataOutput+(1-k)*Xray_RGBR);
+    drawnow
+    pause(0.1)    
+end
+
+
+
+hold on
+hPlot2=plot(displayResults.displayResultsRadial.prof_radial_new1,'r');
+      hPlot2.Visible='on';drawnow;pause(0.1) 
+
+hPlot3=plot(displayResults.displayResultsRadial.prof_radial_new2,'b');
+    hPlot3.Visible='on'; drawnow;pause(0.1) 
+
+hPlot2.Visible='off'; drawnow;pause(0.1) 
+hPlot3.Visible='off'; drawnow;pause(0.1) 
 
 
 %% Third row,  add the LBP Results
