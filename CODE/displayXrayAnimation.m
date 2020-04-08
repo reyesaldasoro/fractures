@@ -73,7 +73,8 @@ diffCols    = floor((colsPos-colsPre)/2);
 Xray_preRot = zeros(size(displayResults.XrayR));
 Xray_preRot (diffRows:diffRows+rowsPre-1,diffCols:diffCols+colsPre-1) = displayResults.Xray;
 
-
+F(cFrame)=getframe(h0);cFrame=cFrame+1;
+F(cFrame)=getframe(h0);cFrame=cFrame+1;
 % Second animation, the rotation process
 for k=0:stepAnim:1
      handleAx.Children.CData =(k*displayResults.XrayR2+(1-k)*Xray_preRot);
@@ -365,6 +366,10 @@ for k=numSteps:-1:1
     drawnow;F(cFrame)=getframe(h0);cFrame=cFrame+1;
     pause(0.01)    
 end
+
+F(cFrame)=getframe(h0);cFrame=cFrame+1;
+F(cFrame)=getframe(h0);cFrame=cFrame+1;
+
 allHandles = F;
 
 %% Save as mp4
