@@ -186,6 +186,6 @@ stats =
 
 
 <h2 id="14">Determine the ratio of trabecular / cortical to total bone</h2><p>The analysis of the landmark of the central finger segments the bone according to the trabecular and cortical regions and then calculates the ratio.</p><pre class="codeinput">[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
-</pre><img vspace="5" hspace="5" src="guideFractures_08.png" alt="">
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt="">
 
 <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div>
