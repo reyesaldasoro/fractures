@@ -102,6 +102,11 @@ sizeInMM                        = [5, 5];
 [LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
 
 
+%% Determine the ratio of trabecular / cortical to total bone 
+% The analysis of the landmark of the central finger segments the bone according to the trabecular and
+% cortical regions and then calculates the ratio.
+
+[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
 
 
 
