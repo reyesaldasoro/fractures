@@ -61,3 +61,47 @@ imagesc(Xray)
 subplot(122)
 imagesc(XrayR2)
 colormap gray
+
+
+%%
+
+[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
+XrayR2                          = removeEdgesCollimator2(XrayR,70);
+
+%% Analysis based on the landmark of the radial styloid
+% To determine two profiles from the radial styloid to the edge of the radius at 30
+% and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial
+% is used in the following way:
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info);
+
+%%
+% The results contain values about the lines (slope, standard deviation, etc)
+stats
+
+%%
+% In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the
+% profiles and the landmarks. You can display displayResultsRadial.dataOut, or use the fourth parameter to
+% request the display (the third parameter is the name of the file, in case you are using it)
+
+displayData                     = 1; 
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
+
+
+
+%% Analysis based on the landmark of the lunate
+% The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm,
+% and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are
+% displayed on the figure when you select to display.
+[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
+
+%% Analysis of the texture a region of interest 
+% A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is
+% selected as an intermediate point of the previously located profiles, so these are necessary input
+% parameters.
+sizeInMM                        = [5, 5];
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+
+
+
+
+
