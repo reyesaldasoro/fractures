@@ -66,10 +66,14 @@ Manipulation under Anaesthesia.
 
 
 
-<li><a href="#7">Remove lines of collimator</a></li></ul></div><h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p><pre class="codeinput">dicom_header = dicominfo(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0'</span>);
+<li><a href="#7">Remove lines of collimator</a></li></ul></div>
+<h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p>
 
-dicom_image = dicomread(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0'</span>);
-</pre><pre class="codeinput">dicom_header
+<pre class="codeinput">
+dicom_header = dicominfo(<span class="string">'D:\IMG0'</span>);
+dicom_image = dicomread(<span class="string">'D:\IMG0'</span>);
+</pre>
+<pre class="codeinput">dicom_header
 </pre><pre class="codeoutput">
 dicom_header =
 
@@ -95,18 +99,18 @@ struct with fields:
 
 <pre class="codeinput">imagesc(dicom_image)
 colormap <span class="string">gray</span>
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_01.png" alt=""> <pre class="codeinput">clear
-</pre><p>If you are going to handle numerous images, it can be convenient to read the dicom and then save in Matlab format as a .mat  file. You can save the header and the image into a single file, the image with the name "Xray" and the header with the name "Xray_info". Later on you can also add the mask (the three landmarks) as "Xray_mask". Then these can be loaded together from one file, e.g.</p><pre class="codeinput">clear
-load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat'</span>)
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_01.png" alt="">
+
+<p>If you are going to handle numerous images, it can be convenient to read the dicom and then save in Matlab format as a .mat  file. You can save the header and the image into a single file, the image with the name "Xray" and the header with the name "Xray_info". Later on you can also add the mask (the three landmarks) as "Xray_mask". Then these can be loaded together from one file, e.g.</p><pre class="codeinput">clear
+load(<span class="string">'D:\PATIENT_PA.mat'</span>)
 
 whos
 </pre><pre class="codeoutput">  Name              Size                 Bytes  Class     Attributes
-
 Xray           2500x2048            40960000  double              
 Xray_info         1x1                  16820  struct              
 Xray_mask      2500x2048            40960000  double              
-
-</pre><h2 id="6">Alignment of the forearm</h2><p>To rotate the Xray so that the forearm is aligned vertically, use the function alingXray. If you are already using a mask, the mask should also be b provided so that it is rotated with the same angle. The actual angle of rotation is one output parameter.</p><pre class="codeinput">[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
+</pre>
+<h2 id="6">Alignment of the forearm</h2><p>To rotate the Xray so that the forearm is aligned vertically, use the function alingXray. If you are already using a mask, the mask should also be b provided so that it is rotated with the same angle. The actual angle of rotation is one output parameter.</p><pre class="codeinput">[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
 
 disp(angleRot)
 
@@ -135,4 +139,51 @@ imagesc(Xray)
 subplot(122)
 imagesc(XrayR2)
 colormap <span class="string">gray</span>
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_03.png" alt=""> <img vspace="5" hspace="5" src="Figures/guideFractures_04.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_03.png" alt=""> <img vspace="5" hspace="5" src="Figures/guideFractures_04.png" alt="">
+
+
+<h2 id="9">Analysis based on the landmark of the radial styloid</h2>
+
+<p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p>
+
+<pre class="codeinput">[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info);
+</pre>
+
+<p>The results contain values about the lines (slope, standard deviation, etc)</p><pre class="codeinput">stats
+</pre><pre class="codeoutput">
+stats =
+
+  struct with fields:
+
+          slope_1: 2.7681
+          slope_2: 2.7769
+    slope_short_1: 3.6995
+    slope_short_2: -1.5135
+            std_1: 238.4763
+            std_2: 278.4577
+         std_ad_1: 143.3862
+         std_ad_2: 204.7399
+          row_LBP: 560
+          col_LBP: 869
+
+</pre>
+<p>In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the profiles and the landmarks. You can display displayResultsRadial.dataOut, or use the fourth parameter to request the display (the third parameter is the name of the file, in case you are using it)</p>
+
+<pre class="codeinput">displayData                     = 1;
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_05.png" alt="">
+
+ <h2 id="12">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are displayed on the figure when you select to display.</p>
+
+ <pre class="codeinput">[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_06.png" alt="">
+
+<h2 id="13">Analysis of the texture a region of interest</h2><p>A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is selected as an intermediate point of the previously located profiles, so these are necessary input parameters.</p>
+
+<pre class="codeinput">sizeInMM                        = [5, 5];
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_07.png" alt="">
+<img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt=""> 
+
+
+<p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div>
