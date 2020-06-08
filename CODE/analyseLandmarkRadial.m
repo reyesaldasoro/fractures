@@ -234,10 +234,11 @@ dataOutput        = dataOutput/maxIntensity;
 
 if displayData==1
     
-    figure
+    h0=figure(7);
+    h0.Position = [   560         465        1033         483];
     subplot(121)
     hold off
-    displayXrayWithMask
+    displayXrayWithMask(Xray,Xray_mask,15,displayData);
     hold on
     plot(rows_radial_lunate,cols_radial_lunate,'c')
     plot(rows_radial_new1,cols_radial_new1,'r')
