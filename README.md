@@ -33,6 +33,11 @@ This work has been accepted for publication in PLOS ONE, if you find the work or
 </b>
 <br><br> 
 
+A previous version of this paper was submitted to MedRXiv (https://www.medrxiv.org/content/10.1101/2020.02.18.20024562v1) 
+<br>
+<br>
+
+
 <a name="description"/>
 <h2> Brief description </h2>
 </a>
