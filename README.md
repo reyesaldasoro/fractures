@@ -183,7 +183,7 @@ stats =
 <pre class="codeinput">sizeInMM                        = [5, 5];
 [LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_07.png" alt="">
-<img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt=""> 
+
 
 
 <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div>

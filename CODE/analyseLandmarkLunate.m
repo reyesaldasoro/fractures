@@ -272,7 +272,8 @@ if displayData==1
     
     %imagesc(dataOutput)
     %%
-    figure
+    h0=figure(8);
+    h0.Position = [   560         465        1033         483];
     subplot(121)
     imagesc(Xray)
     title(currentFile(13:end),'interpreter','none')
