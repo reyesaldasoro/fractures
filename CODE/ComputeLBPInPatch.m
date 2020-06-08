@@ -53,6 +53,9 @@ displayResultsLBP.PatchExtracted      = PatchExtracted;
 
 % Show image
 if (displayData)
+    
+    h0=figure(9);
+    h0.Position = [   560         465        1033         483];
     figure;
     subplot(121)
     imagesc(double(Xray) / double(max(Xray(:))));
