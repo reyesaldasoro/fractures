@@ -311,7 +311,8 @@ CorticalProfile ={Cortical,{centValleyLoc,centValley,...
 
 if displayData==1
     
-    figure
+    h0 = figure(10);
+    h0.Position = [   560         465        1033         483];
     subplot(131)
     hold off
     imagesc(Xray)
