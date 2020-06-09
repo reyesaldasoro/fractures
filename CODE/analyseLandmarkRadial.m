@@ -201,7 +201,12 @@ stats.col_LBP           = round(cols_radial_new1(positionLBP));
 % zoom on
 
 if ~exist('displayData','var') displayData=0; end
-if ~exist('currentFile','var') currentFile='                   '; end
+if ~exist('currentFile','var') currentFile='                   '; 
+else
+    if size(currentFile,2)<13
+        currentFile = strcat(32,32,32,32,32,32,32,32,32,32,32,32,32,currentFile);
+    end
+end
 
 linesLunate                         = zeros(rows,cols);
 linesProfile1                       = zeros(rows,cols);
