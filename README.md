@@ -4,14 +4,7 @@
 
 ##### Table of Contents  
 
-[Colles' Fractures](#fractures)  
-[Citation](#citation)   
-[Brief Description](#description)    
-[Running the code](#running)   
 
-<a name="fractures"/>
-<h2> Segmentation of Nuclear Envelope of HeLa Cells observed with Electron Microscope </h2>
-</a>
 
 This repository describes a semi-automatic image processing algorithm for the geometric analysis of dorsally displaced wrist fractures (Colles’ fractures). The semi-automatic analysis require the manual location of three landmarks (finger, lunate and radial styloid) and automatic processing to generate 32 geometric and texture measurements, which may be related to conditions such as osteoporosis and swelling of the wrist.
 
