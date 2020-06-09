@@ -21,7 +21,8 @@ clear
 % "Xray" and the header with the name "Xray_info". Later on you can also add the mask (the three landmarks) as
 % "Xray_mask". Then these can be loaded together from one file, e.g.
 clear
-load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat')
+%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat')
+load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8845_PATIENT_PA_298.mat')
  
 whos
 %% Alignment of the forearm
@@ -43,7 +44,7 @@ imagesc(XrayR)
 % In case the image has lines due to the collimator and these should be removed, use the function
 % removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that
 % controls the width of the removal, if the default does not work, try increasing it.
-load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat')
+%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat')
 
 
 XrayR2                          = removeEdgesCollimator2(Xray);
@@ -54,7 +55,7 @@ subplot(122)
 imagesc(XrayR2)
 
 
-XrayR2                          = removeEdgesCollimator2(Xray,70);
+XrayR2                          = removeEdgesCollimator2(Xray,90);
 figure(2)
 subplot(121)
 imagesc(Xray)
@@ -72,41 +73,44 @@ XrayR2                          = removeEdgesCollimator2(XrayR,70);
 % To determine two profiles from the radial styloid to the edge of the radius at 30
 % and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial
 % is used in the following way:
-[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info);
+
+displayData                     = 1; 
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,'Case 1234',displayData);
 
 %%
-% The results contain values about the lines (slope, standard deviation, etc)
+% Notice that we have used the variable "displayData", which if set to 1, prompts the data to be displayed in
+% a new figure. If it is set to 0 (or not passed as an input variable) no new figure is generated. In
+% addition, the name of the case ('Case 1234') has been passed as an input.
+% 
+% The output variable 'stats' contain values about the lines (slope, standard deviation, etc)
 stats
 
 %%
 % In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the
-% profiles and the landmarks. You can display displayResultsRadial.dataOut, or use the fourth parameter to
-% request the display (the third parameter is the name of the file, in case you are using it)
+% profiles and the landmarks. 
 
-displayData                     = 1; 
-[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
-
+displayResultsRadial
 
 
 %% Analysis based on the landmark of the lunate
 % The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm,
 % and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are
 % displayed on the figure when you select to display.
-[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
+[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,'Case 1234',displayData);
 
 %% Analysis of the texture a region of interest 
 % A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is
 % selected as an intermediate point of the previously located profiles, so these are necessary input
 % parameters.
 sizeInMM                        = [5, 5];
-[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,'Case 1234',displayData);
 
 
 %% Determine the ratio of trabecular / cortical to total bone 
 % The analysis of the landmark of the central finger segments the bone according to the trabecular and
 % cortical regions and then calculates the ratio.
 
-[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
+[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,'Case 1234',displayData);
 
 
 
