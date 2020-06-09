@@ -144,7 +144,9 @@ colormap <span class="string">gray</span>
 
 <p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p>
 
-<pre class="codeinput">[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info);
+<pre class="codeinput">
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
+
 </pre>
 
 <p>The results contain values about the lines (slope, standard deviation, etc)</p><pre class="codeinput">stats
