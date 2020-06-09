@@ -41,6 +41,7 @@ results(numXrays,numResults)    = 0;
 displayData             = 0;
 done                    = [];
 remaining               = [];
+statsGenAge             = [];
 for k=   1:numXrays
     try
         %
@@ -63,10 +64,10 @@ for k=   1:numXrays
             results(k,:)                    = [qq2 x];
             
             done=[done;k CaseANON x y];
-            figure;             displayXrayMetrics(displayResults,dataOut)
-            print(saveName,'-djpeg')
+            %figure;             displayXrayMetrics(displayResults,dataOut);
+            %print(saveName,'-djpeg')
             close all;
-            
+            statsGenAge =[statsGenAge;[x dataOut.age dataOut.gender]];
         else
             %disp([k CaseANON ])
             remaining=[remaining;k CaseANON];
