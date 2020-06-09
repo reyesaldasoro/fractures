@@ -69,6 +69,9 @@ colormap gray
 [XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
 XrayR2                          = removeEdgesCollimator2(XrayR,70);
 
+%%
+% Notice that we are concatenating results: Xray -> XrayR -> XrayR2.
+
 %% Analysis based on the landmark of the radial styloid
 % To determine two profiles from the radial styloid to the edge of the radius at 30
 % and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial
@@ -94,10 +97,15 @@ displayResultsRadial
 
 %% Analysis based on the landmark of the lunate
 % The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm,
-% and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are
+% and trace 8 lines that measure the width of the forearm, each at one cm of separation. The widths are
 % displayed on the figure when you select to display.
-[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,'Case 1234',displayData);
+[edgesArm,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,'Case 1234',displayData);
 
+%%
+% Of the previous output variables, edgesArm is a 2D matrix with the delineation of the arm,
+% displayResultsLunate is a 2D matrix with the lines overlaid on the original Xray, dataOutput is the same,
+% except that the lines are in red for better contrast. widthAtCM are the actual width of each line.
+% coordinatesArm are the rows and columns that are used to crop the forearm.
 %% Analysis of the texture a region of interest 
 % A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is
 % selected as an intermediate point of the previously located profiles, so these are necessary input
