@@ -14,15 +14,7 @@
 <h2> Segmentation of Nuclear Envelope of HeLa Cells observed with Electron Microscope </h2>
 </a>
 
-
-This code contains an image-processing pipeline for the automatic segmentation of the nuclear envelope of {\it HeLa} cells
-observed through Electron Microscopy. This pipeline has been tested with a 3D stack of 300 images.
-The intermediate results of neighbouring slices are further combined to improve the final results.
-Comparison with a hand-segmented  ground truth reported Jaccard similarity values between 94-98% on
-the central slices with a decrease towards the edges of the cell where the structure was considerably more complex.
-The processing is unsupervised and  each 2D Slice is processed in about 5-10 seconds running on a MacBook Pro.
-No systematic attempt to make the code faster was made.
-
+This repository describes a semi-automatic image processing algorithm for the geometric analysis of dorsally displaced wrist fractures (Colles’ fractures). The semi-automatic analysis require the manual location of three landmarks (finger, lunate and radial styloid) and automatic processing to generate 32 geometric and texture measurements, which may be related to conditions such as osteoporosis and swelling of the wrist. 
 
 <a name="citation"/>
 <h2> Citation </h2>
