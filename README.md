@@ -142,38 +142,58 @@ colormap <span class="string">gray</span>
 
 <h2 id="4">Analysis based on the landmark of the radial styloid</h2>
 
-<p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p>
 
-<pre class="codeinput">
+
+
+<p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p>
+<pre class="codeinput">displayData                     = 1;
+
 [stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
 
 </pre>
-
-<p>The results contain values about the lines (slope, standard deviation, etc)</p><pre class="codeinput">stats
+<img vspace="5" hspace="5" src="Figures/guideFractures_05.png" alt=""> <p>Notice that we have used the variable "displayData", which if set to 1, prompts the data to be displayed in a new figure. If it is set to 0 (or not passed as an input variable) no new figure is generated. In addition, the name of the case ('Case 1234') has been passed as an input.</p>
+<p>The output variable 'stats' contain values about the lines (slope, standard deviation, etc)</p>
+<pre class="codeinput">stats
 </pre><pre class="codeoutput">
 stats =
 
   struct with fields:
 
-          slope_1: 2.7681
-          slope_2: 2.7769
-    slope_short_1: 3.6995
-    slope_short_2: -1.5135
-            std_1: 238.4763
-            std_2: 278.4577
-         std_ad_1: 143.3862
-         std_ad_2: 204.7399
-          row_LBP: 560
-          col_LBP: 869
+          slope_1: 1.9149
+          slope_2: 1.5220
+    slope_short_1: 6.6215
+    slope_short_2: 3.8167
+            std_1: 243.0131
+            std_2: 252.0656
+         std_ad_1: 153.6793
+         std_ad_2: 131.0886
+          row_LBP: 1189
+          col_LBP: 1060
 
 </pre>
-<p>In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the profiles and the landmarks. You can display displayResultsRadial.dataOut, or use the fourth parameter to request the display (the third parameter is the name of the file, in case you are using it)</p>
+<p>In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the profiles and the landmarks.</p>
+<pre class="codeinput">displayResultsRadial
+</pre><pre class="codeoutput">
+displayResultsRadial =
 
-<pre class="codeinput">displayData                     = 1;
-[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_05.png" alt="">
+  struct with fields:
 
- <h2 id="5">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm of separation. The widths are displayed on the figure when you select to display.</p>
+     prof_radial_new1: [329&times;1 double]
+     prof_radial_new2: [521&times;1 double]
+    prof2_radial_new1: [329&times;1 double]
+    prof2_radial_new2: [521&times;1 double]
+           dataOutput: [2567&times;2033&times;3 double]
+          dist_prof_1: 44.6530
+          dist_prof_2: 58.4762
+
+</pre>
+
+
+
+
+
+ <h2 id="5">Analysis based on the landmark of the lunate</h2>
+ <p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm of separation. The widths are displayed on the figure when you select to display.</p>
 
  <pre class="codeinput">[edgesArm,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
  </pre>
