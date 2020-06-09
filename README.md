@@ -53,7 +53,13 @@ Manipulation under Anaesthesia.
 
 
 
-<li><a href="#7">Remove lines of collimator</a></li></ul></div>
+<li><a href="#1">Reading DICOM files </a></li></ul></div>
+<li><a href="#2">Alignment of the forearm </a></li></ul></div>
+<li><a href="#3">Remove lines of collimator </a></li></ul></div>
+<li><a href="#4">Analysis based on the landmark of the radial styloid </a></li></ul></div>
+<li><a href="#5">Analysis based on the landmark of the lunate </a></li></ul></div>
+<li><a href="#6">Analysis of the texture a region of interest </a></li></ul></div>
+<li><a href="#7">Determine the ratio of trabecular / cortical to total bone</a></li></ul></div>
 
 
 <h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p>
@@ -99,7 +105,7 @@ Xray           2500x2048            40960000  double
 Xray_info         1x1                  16820  struct              
 Xray_mask      2500x2048            40960000  double              
 </pre>
-<h2 id="6">Alignment of the forearm</h2><p>To rotate the Xray so that the forearm is aligned vertically, use the function alingXray. If you are already using a mask, the mask should also be b provided so that it is rotated with the same angle. The actual angle of rotation is one output parameter.</p><pre class="codeinput">[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
+<h2 id="2">Alignment of the forearm</h2><p>To rotate the Xray so that the forearm is aligned vertically, use the function alingXray. If you are already using a mask, the mask should also be b provided so that it is rotated with the same angle. The actual angle of rotation is one output parameter.</p><pre class="codeinput">[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
 
 disp(angleRot)
 
@@ -110,7 +116,8 @@ subplot(122)
 imagesc(XrayR)
 </pre><pre class="codeoutput">   -13
 
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_02.png" alt=""> <h2 id="7">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default does not work, try increasing it.</p><pre class="codeinput">load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat'</span>)
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_02.png" alt=""> 
+<h2 id="3">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default does not work, try increasing it.</p><pre class="codeinput">load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat'</span>)
 
 
 XrayR2                          = removeEdgesCollimator2(Xray);
@@ -131,7 +138,7 @@ colormap <span class="string">gray</span>
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_03.png" alt=""> <img vspace="5" hspace="5" src="Figures/guideFractures_04.png" alt="">
 
 
-<h2 id="9">Analysis based on the landmark of the radial styloid</h2>
+<h2 id="4">Analysis based on the landmark of the radial styloid</h2>
 
 <p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p>
 
@@ -162,19 +169,19 @@ stats =
 [stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_05.png" alt="">
 
- <h2 id="12">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are displayed on the figure when you select to display.</p>
+ <h2 id="5">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are displayed on the figure when you select to display.</p>
 
  <pre class="codeinput">[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_06.png" alt="">
 
-<h2 id="13">Analysis of the texture a region of interest</h2><p>A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is selected as an intermediate point of the previously located profiles, so these are necessary input parameters.</p>
+<h2 id="6">Analysis of the texture a region of interest</h2><p>A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is selected as an intermediate point of the previously located profiles, so these are necessary input parameters.</p>
 
 <pre class="codeinput">sizeInMM                        = [5, 5];
 [LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_07.png" alt="">
 
 
-<h2 id="14">Determine the ratio of trabecular / cortical to total bone</h2><p>The analysis of the landmark of the central finger segments the bone according to the trabecular and cortical regions and then calculates the ratio.</p><pre class="codeinput">[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
+<h2 id="7">Determine the ratio of trabecular / cortical to total bone</h2><p>The analysis of the landmark of the central finger segments the bone according to the trabecular and cortical regions and then calculates the ratio.</p><pre class="codeinput">[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt="">
 
 <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div>
