@@ -1,4 +1,4 @@
-function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,Xray_mask,x, y, sizeInMM,displayData)
+function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,Xray_mask,x, y, sizeInMM,currentFile,displayData)
 
 %[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR,Xray_info,stats.row_LBP-40,stats.col_LBP+50,sizeInMM,displayData);
 
@@ -50,6 +50,12 @@ LBP_features        = extractLBPFeatures(uint16(PatchExtracted), 'Upright', fals
 
 displayResultsLBP.Xray_out          = Xray_out;
 displayResultsLBP.PatchExtracted      = PatchExtracted;
+if ~exist('currentFile','var') currentFile='                   '; 
+else
+    if size(currentFile,2)<13
+        currentFile = strcat(32,32,32,32,32,32,32,32,32,32,32,32,32,currentFile);
+    end
+end
 
 % Show image
 if (displayData)
@@ -59,7 +65,8 @@ if (displayData)
     subplot(121)
     imagesc(double(Xray) / double(max(Xray(:))));
     colormap gray
-    title(Xray_info.PatientID);
+%    title(Xray_info.PatientID);
+    title(currentFile(13:end),'interpreter','none')
     hold on;
     %    scatter (x, y);
     plot(x,y,'ro','markersize',9,'linewidth',2)
