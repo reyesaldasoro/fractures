@@ -13,7 +13,7 @@
 <h2> Segmentation of Nuclear Envelope of HeLa Cells observed with Electron Microscope </h2>
 </a>
 
-This repository describes a semi-automatic image processing algorithm for the geometric analysis of dorsally displaced wrist fractures (Colles’ fractures). The semi-automatic analysis require the manual location of three landmarks (finger, lunate and radial styloid) and automatic processing to generate 32 geometric and texture measurements, which may be related to conditions such as osteoporosis and swelling of the wrist. 
+This repository describes a semi-automatic image processing algorithm for the geometric analysis of dorsally displaced wrist fractures (Colles’ fractures). The semi-automatic analysis require the manual location of three landmarks (finger, lunate and radial styloid) and automatic processing to generate 32 geometric and texture measurements, which may be related to conditions such as osteoporosis and swelling of the wrist.
 
 <a name="citation"/>
 <h2> Citation </h2>
@@ -116,7 +116,7 @@ subplot(122)
 imagesc(XrayR)
 </pre><pre class="codeoutput">   -13
 
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_02.png" alt=""> 
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_02.png" alt="">
 <h2 id="3">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default value (set at 25) does not work, try increasing it.</p><pre class="codeinput">load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat'</span>)
 
 
@@ -136,6 +136,8 @@ subplot(122)
 imagesc(XrayR2)
 colormap <span class="string">gray</span>
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_03.png" alt=""> <img vspace="5" hspace="5" src="Figures/guideFractures_04.png" alt="">
+
+<p>Notice that we are concatenating results: Xray -&gt; XrayR -&gt; XrayR2.</p>
 
 
 <h2 id="4">Analysis based on the landmark of the radial styloid</h2>
@@ -169,10 +171,19 @@ stats =
 [stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_05.png" alt="">
 
- <h2 id="5">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are displayed on the figure when you select to display.</p>
+ <h2 id="5">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm of separation. The widths are displayed on the figure when you select to display.</p>
 
- <pre class="codeinput">[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_06.png" alt="">
+ <pre class="codeinput">[edgesArm,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
+ </pre>
+
+
+
+</pre>
+<img vspace="5" hspace="5" src="Figures/guideFractures_06.png" alt="">
+
+<p>Of the previous output variables, edgesArm is a 2D matrix with the delineation of the arm, displayResultsLunate is a 2D matrix with the lines overlaid on the original Xray, dataOutput is the same, except that the lines are in red for better contrast. widthAtCM are the actual width of each line. coordinatesArm are the rows and columns that are used to crop the forearm.</p>
+
+
 
 <h2 id="6">Analysis of the texture a region of interest</h2><p>A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is selected as an intermediate point of the previously located profiles, so these are necessary input parameters.</p>
 
