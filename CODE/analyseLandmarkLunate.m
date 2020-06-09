@@ -230,10 +230,13 @@ end
 if ~exist('displayData','var')
     displayData=0;
 end
-if ~exist('currentFile','var')
-    currentFile='                   ';
-end
 
+if ~exist('currentFile','var') currentFile='                   '; 
+else
+    if size(currentFile,2)<13
+        currentFile = strcat(32,32,32,32,32,32,32,32,32,32,32,32,32,currentFile);
+    end
+end
 
 c_init      = max(1,-5+find(sum(regionBelowLunate>0,1),1,'first'));
 r_init      = max(1,-5+find(sum(regionBelowLunate>0,2),1,'first'));
