@@ -96,7 +96,7 @@ struct with fields:
 colormap <span class="string">gray</span>
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_01.png" alt="">
 
-<p>If you are going to handle numerous images, it can be convenient to read the dicom and then save in Matlab format as a .mat  file. You can save the header and the image into a single file, the image with the name "Xray" and the header with the name "Xray_info". Later on you can also add the mask (the three landmarks) as "Xray_mask". Then these can be loaded together from one file, e.g.</p><pre class="codeinput">clear
+<p>If you are going to handle numerous images, it can be convenient to read the dicom and then save in Matlab format as a .mat  file. You can save the header and the image into a single file. In subsequent files, the image will be identified with the name <b>"Xray"</b> and the header with the name <b>"Xray_info"</b>. Later on you can also add the mask (the three landmarks) as <b>"Xray_mask"</b>. Then these can be loaded together from one file, e.g.</p><pre class="codeinput">clear
 load(<span class="string">'D:\PATIENT_PA.mat'</span>)
 
 whos
@@ -117,7 +117,7 @@ imagesc(XrayR)
 </pre><pre class="codeoutput">   -13
 
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_02.png" alt=""> 
-<h2 id="3">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default does not work, try increasing it.</p><pre class="codeinput">load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat'</span>)
+<h2 id="3">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default value (set at 25) does not work, try increasing it.</p><pre class="codeinput">load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat'</span>)
 
 
 XrayR2                          = removeEdgesCollimator2(Xray);
