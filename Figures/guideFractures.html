@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>guideFractures</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-06-08"><meta name="DC.source" content="guideFractures.m"><style type="text/css">
+      --><title>guideFractures</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-06-09"><meta name="DC.source" content="guideFractures.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Reading DICOM files</a></li><li><a href="#6">Alignment of the forearm</a></li><li><a href="#7">Remove lines of collimator</a></li><li><a href="#9">Analysis based on the landmark of the radial styloid</a></li><li><a href="#12">Analysis based on the landmark of the lunate</a></li><li><a href="#13">Analysis of the texture a region of interest</a></li><li><a href="#14">Determine the ratio of trabecular / cortical to total bone</a></li></ul></div><h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p><pre class="codeinput">dicom_header = dicominfo(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0'</span>);
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Reading DICOM files</a></li><li><a href="#6">Alignment of the forearm</a></li><li><a href="#7">Remove lines of collimator</a></li><li><a href="#10">Analysis based on the landmark of the radial styloid</a></li><li><a href="#13">Analysis based on the landmark of the lunate</a></li><li><a href="#15">Analysis of the texture a region of interest</a></li><li><a href="#16">Determine the ratio of trabecular / cortical to total bone</a></li></ul></div><h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p><pre class="codeinput">dicom_header = dicominfo(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0'</span>);
 
 dicom_image = dicomread(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0'</span>);
 </pre><pre class="codeinput">dicom_header
@@ -193,14 +193,15 @@ dicom_header =
 colormap <span class="string">gray</span>
 </pre><img vspace="5" hspace="5" src="guideFractures_01.png" alt=""> <pre class="codeinput">clear
 </pre><p>If you are going to handle numerous images, it can be convenient to read the dicom and then save in Matlab format as a *.mat file. You can save the header and the image into a single file, the image with the name "Xray" and the header with the name "Xray_info". Later on you can also add the mask (the three landmarks) as "Xray_mask". Then these can be loaded together from one file, e.g.</p><pre class="codeinput">clear
-load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat'</span>)
+<span class="comment">%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat')</span>
+load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8845_PATIENT_PA_298.mat'</span>)
 
 whos
 </pre><pre class="codeoutput">  Name              Size                 Bytes  Class     Attributes
 
-  Xray           2500x2048            40960000  double              
-  Xray_info         1x1                  16820  struct              
-  Xray_mask      2500x2048            40960000  double              
+  Xray           2392x1792            34291712  double              
+  Xray_info         1x1                  16690  struct              
+  Xray_mask      2392x1792            34291712  double              
 
 </pre><h2 id="6">Alignment of the forearm</h2><p>To rotate the Xray so that the forearm is aligned vertically, use the function alingXray. If you are already using a mask, the mask should also be b provided so that it is rotated with the same angle. The actual angle of rotation is one output parameter.</p><pre class="codeinput">[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
 
@@ -211,9 +212,9 @@ subplot(121)
 imagesc(Xray)
 subplot(122)
 imagesc(XrayR)
-</pre><pre class="codeoutput">   -13
+</pre><pre class="codeoutput">    -6
 
-</pre><img vspace="5" hspace="5" src="guideFractures_02.png" alt=""> <h2 id="7">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default does not work, try increasing it.</p><pre class="codeinput">load(<span class="string">'D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat'</span>)
+</pre><img vspace="5" hspace="5" src="guideFractures_02.png" alt=""> <h2 id="7">Remove lines of collimator</h2><p>In case the image has lines due to the collimator and these should be removed, use the function removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that controls the width of the removal, if the default does not work, try increasing it.</p><pre class="codeinput"><span class="comment">%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat')</span>
 
 
 XrayR2                          = removeEdgesCollimator2(Xray);
@@ -224,7 +225,7 @@ subplot(122)
 imagesc(XrayR2)
 
 
-XrayR2                          = removeEdgesCollimator2(Xray,70);
+XrayR2                          = removeEdgesCollimator2(Xray,90);
 figure(2)
 subplot(121)
 imagesc(Xray)
@@ -233,30 +234,43 @@ imagesc(XrayR2)
 colormap <span class="string">gray</span>
 </pre><img vspace="5" hspace="5" src="guideFractures_03.png" alt=""> <img vspace="5" hspace="5" src="guideFractures_04.png" alt=""> <pre class="codeinput">[XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
 XrayR2                          = removeEdgesCollimator2(XrayR,70);
-</pre><h2 id="9">Analysis based on the landmark of the radial styloid</h2><p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p><pre class="codeinput">[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info);
-</pre><p>The results contain values about the lines (slope, standard deviation, etc)</p><pre class="codeinput">stats
+</pre><p>Notice that we are concatenating results: Xray -&gt; XrayR -&gt; XrayR2.</p><h2 id="10">Analysis based on the landmark of the radial styloid</h2><p>To determine two profiles from the radial styloid to the edge of the radius at 30 and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial is used in the following way:</p><pre class="codeinput">displayData                     = 1;
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
+</pre><img vspace="5" hspace="5" src="guideFractures_05.png" alt=""> <p>Notice that we have used the variable "displayData", which if set to 1, prompts the data to be displayed in a new figure. If it is set to 0 (or not passed as an input variable) no new figure is generated. In addition, the name of the case ('Case 1234') has been passed as an input.</p><p>The output variable 'stats' contain values about the lines (slope, standard deviation, etc)</p><pre class="codeinput">stats
 </pre><pre class="codeoutput">
 stats = 
 
   struct with fields:
 
-          slope_1: 2.7681
-          slope_2: 2.7769
-    slope_short_1: 3.6995
-    slope_short_2: -1.5135
-            std_1: 238.4763
-            std_2: 278.4577
-         std_ad_1: 143.3862
-         std_ad_2: 204.7399
-          row_LBP: 560
-          col_LBP: 869
+          slope_1: 1.9149
+          slope_2: 1.5220
+    slope_short_1: 6.6215
+    slope_short_2: 3.8167
+            std_1: 243.0131
+            std_2: 252.0656
+         std_ad_1: 153.6793
+         std_ad_2: 131.0886
+          row_LBP: 1189
+          col_LBP: 1060
 
-</pre><p>In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the profiles and the landmarks. You can display displayResultsRadial.dataOut, or use the fourth parameter to request the display (the third parameter is the name of the file, in case you are using it)</p><pre class="codeinput">displayData                     = 1;
-[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
-</pre><img vspace="5" hspace="5" src="guideFractures_05.png" alt=""> <h2 id="12">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are displayed on the figure when you select to display.</p><pre class="codeinput">[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
-</pre><img vspace="5" hspace="5" src="guideFractures_06.png" alt=""> <h2 id="13">Analysis of the texture a region of interest</h2><p>A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is selected as an intermediate point of the previously located profiles, so these are necessary input parameters.</p><pre class="codeinput">sizeInMM                        = [5, 5];
-[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
-</pre><img vspace="5" hspace="5" src="guideFractures_07.png" alt=""> <h2 id="14">Determine the ratio of trabecular / cortical to total bone</h2><p>The analysis of the landmark of the central finger segments the bone according to the trabecular and cortical regions and then calculates the ratio.</p><pre class="codeinput">[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
+</pre><p>In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the profiles and the landmarks.</p><pre class="codeinput">displayResultsRadial
+</pre><pre class="codeoutput">
+displayResultsRadial = 
+
+  struct with fields:
+
+     prof_radial_new1: [329&times;1 double]
+     prof_radial_new2: [521&times;1 double]
+    prof2_radial_new1: [329&times;1 double]
+    prof2_radial_new2: [521&times;1 double]
+           dataOutput: [2567&times;2033&times;3 double]
+          dist_prof_1: 44.6530
+          dist_prof_2: 58.4762
+
+</pre><h2 id="13">Analysis based on the landmark of the lunate</h2><p>The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm, and trace 8 lines that measure the width of the forearm, each at one cm of separation. The widths are displayed on the figure when you select to display.</p><pre class="codeinput">[edgesArm,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
+</pre><img vspace="5" hspace="5" src="guideFractures_06.png" alt=""> <p>Of the previous output variables, edgesArm is a 2D matrix with the delineation of the arm, displayResultsLunate is a 2D matrix with the lines overlaid on the original Xray, dataOutput is the same, except that the lines are in red for better contrast. widthAtCM are the actual width of each line. coordinatesArm are the rows and columns that are used to crop the forearm.</p><h2 id="15">Analysis of the texture a region of interest</h2><p>A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is selected as an intermediate point of the previously located profiles, so these are necessary input parameters.</p><pre class="codeinput">sizeInMM                        = [5, 5];
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,<span class="string">'Case 1234'</span>,displayData);
+</pre><img vspace="5" hspace="5" src="guideFractures_07.png" alt=""> <h2 id="16">Determine the ratio of trabecular / cortical to total bone</h2><p>The analysis of the landmark of the central finger segments the bone according to the trabecular and cortical regions and then calculates the ratio.</p><pre class="codeinput">[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,<span class="string">'Case 1234'</span>,displayData);
 </pre><img vspace="5" hspace="5" src="guideFractures_08.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Reading DICOM files
@@ -282,7 +296,8 @@ clear
 % "Xray" and the header with the name "Xray_info". Later on you can also add the mask (the three landmarks) as
 % "Xray_mask". Then these can be loaded together from one file, e.g.
 clear
-load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat')
+%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat')
+load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8845_PATIENT_PA_298.mat')
  
 whos
 %% Alignment of the forearm
@@ -304,7 +319,7 @@ imagesc(XrayR)
 % In case the image has lines due to the collimator and these should be removed, use the function
 % removeEdgesCollimator. The function receives the Xray as input, and if desired a second parameter that
 % controls the width of the removal, if the default does not work, try increasing it.
-load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat')
+%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8949_PATIENT_PA_594.mat')
 
 
 XrayR2                          = removeEdgesCollimator2(Xray);
@@ -315,7 +330,7 @@ subplot(122)
 imagesc(XrayR2)
 
 
-XrayR2                          = removeEdgesCollimator2(Xray,70);
+XrayR2                          = removeEdgesCollimator2(Xray,90);
 figure(2)
 subplot(121)
 imagesc(Xray)
@@ -329,45 +344,56 @@ colormap gray
 [XrayR,Xray_maskR,angleRot]     = alignXray (Xray,Xray_mask);
 XrayR2                          = removeEdgesCollimator2(XrayR,70);
 
+%%
+% Notice that we are concatenating results: Xray -> XrayR -> XrayR2.
+
 %% Analysis based on the landmark of the radial styloid
 % To determine two profiles from the radial styloid to the edge of the radius at 30
 % and 45 degrees below the line between the radial styloid and the lunate the function analyseLandmarkRadial
 % is used in the following way:
-[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info);
+
+displayData                     = 1; 
+[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,'Case 1234',displayData);
 
 %%
-% The results contain values about the lines (slope, standard deviation, etc)
+% Notice that we have used the variable "displayData", which if set to 1, prompts the data to be displayed in
+% a new figure. If it is set to 0 (or not passed as an input variable) no new figure is generated. In
+% addition, the name of the case ('Case 1234') has been passed as an input.
+% 
+% The output variable 'stats' contain values about the lines (slope, standard deviation, etc)
 stats
 
 %%
 % In addition displayResultsRadial contains the actual profiles of the lines, as well as the data with the
-% profiles and the landmarks. You can display displayResultsRadial.dataOut, or use the fourth parameter to
-% request the display (the third parameter is the name of the file, in case you are using it)
+% profiles and the landmarks. 
 
-displayData                     = 1; 
-[stats,displayResultsRadial]    = analyseLandmarkRadial (XrayR2,Xray_maskR,Xray_info,[],displayData);
-
+displayResultsRadial
 
 
 %% Analysis based on the landmark of the lunate
 % The landmark of the lunate is used to determine the forearm, and from there delineate the edges of the arm,
-% and trace 8 lines that measure the width of the forearm, each at one cm if separation. The widths are
+% and trace 8 lines that measure the width of the forearm, each at one cm of separation. The widths are
 % displayed on the figure when you select to display.
-[AreaInflammation,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,[],displayData);
+[edgesArm,widthAtCM,displayResultsLunate,dataOutput,coordinatesArm]    = analyseLandmarkLunate (XrayR2,Xray_maskR,Xray_info,'Case 1234',displayData);
 
+%%
+% Of the previous output variables, edgesArm is a 2D matrix with the delineation of the arm,
+% displayResultsLunate is a 2D matrix with the lines overlaid on the original Xray, dataOutput is the same,
+% except that the lines are in red for better contrast. widthAtCM are the actual width of each line.
+% coordinatesArm are the rows and columns that are used to crop the forearm.
 %% Analysis of the texture a region of interest 
 % A region of interest is detected and the Local Binary Pattern is calculated, the location of the region is
 % selected as an intermediate point of the previously located profiles, so these are necessary input
 % parameters.
 sizeInMM                        = [5, 5];
-[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,'Case 1234',displayData);
 
 
 %% Determine the ratio of trabecular / cortical to total bone 
 % The analysis of the landmark of the central finger segments the bone according to the trabecular and
 % cortical regions and then calculates the ratio.
 
-[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,[],displayData);
+[TrabecularToTotal,WidthFinger,displayResultsFinger] = analyseLandmarkFinger (XrayR,Xray_maskR,Xray_info,'Case 1234',displayData);
 
 
 
