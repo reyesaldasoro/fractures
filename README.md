@@ -6,8 +6,7 @@
 
 [Colles' Fractures](#fractures)  
 [Citation](#citation)   
-[Brief Description](#description)   
-[Limitations](#limitations)   
+[Brief Description](#description)    
 [Running the code](#running)   
 
 <a name="fractures"/>
@@ -31,7 +30,7 @@ A previous version of this paper was submitted to MedRXiv (https://www.medrxiv.o
 
 
 <a name="description"/>
-<h2> Brief description </h2>
+<h2> Colles' Fractures / dorsally displaced wrist fractures </h2>
 </a>
 
 
@@ -46,10 +45,6 @@ patients with dorsally displaced wrist fractures (Colles' fractures) who were tr
 Manipulation under Anaesthesia.
 
 
-<a name="limitations"/>
-<h2>Limitations</h2>
-</a>
-
 
 <a name="running"/>
 <h2>Running the code</h2>
@@ -59,6 +54,8 @@ Manipulation under Anaesthesia.
 
 
 <li><a href="#7">Remove lines of collimator</a></li></ul></div>
+
+
 <h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p>
 
 <pre class="codeinput">
