@@ -286,10 +286,12 @@ WidthFinger                     = (rightEdgeLoc-leftEdgeLoc) *Xray_info.PixelSpa
 if ~exist('displayData','var') 
     displayData=0; 
 end
-if ~exist('currentFile','var') 
-    currentFile='                   '; 
+if ~exist('currentFile','var') currentFile='                   '; 
+else
+    if size(currentFile,2)<13
+        currentFile = strcat(32,32,32,32,32,32,32,32,32,32,32,32,32,currentFile);
+    end
 end
-
 
 
 linesMeasurement                        = zeros(rows,cols);
