@@ -2,7 +2,7 @@ function allHandles = displayXrayMetrics(displayResults,dataOut)
 % display all the metrics that have been extracted from an x-ray
 
 % First row, the original image, plus landmarks, rotation and lines of width
- set(gcf,'Position', [   247   68   927   880])
+ set(gcf,'Position', [   247   18   827   780])
 ha = subplot(4,3,1);
 %imagesc(displayResults.Xray)
     sizeDilate = 55;
@@ -93,9 +93,9 @@ title('(l)','fontsize',12)
 
 
 hTit = annotation(gcf,'textbox',...
-    [0.345199568500538 0.955709957258268 0.327939580623643 0.0292207786724681],...
+    [0.38 0.96 0.327939580623643 0.0292207786724681],...
     'String',displayResults.nameFile,'interpreter','none',...
-    'FitBoxToText','on','linestyle','none');
+    'FitBoxToText','on','linestyle','none','fontsize',22);
 
 allHandles.ha = ha;
 allHandles.hb = hb;
