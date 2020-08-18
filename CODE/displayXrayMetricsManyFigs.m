@@ -3,7 +3,7 @@ function allHandles = displayXrayMetrics(displayResults,dataOut)
 % ***************in several figures ************
 % First figure, the original image, plus landmarks, rotation and lines of width
 figure(1)
-set(gcf,'Position', [   250   600   927   280])
+set(gcf,'Position', [   250   500   927   280])
 ha = subplot(1,3,1);
 %imagesc(displayResults.Xray)
     sizeDilate = 55;
@@ -26,15 +26,15 @@ hc = subplot(1,3,3);
 imagesc(displayResults.displayResultsLunate2)
 title('(c)','fontsize',12)
 
-ha.Position = [ 0.035    0.1    0.285    0.801];
-hb.Position = [ 0.37    0.1    0.285    0.801];
-hc.Position = [ 0.7    0.1    0.285    0.801];
+ha.Position = [ 0.05    0.1    0.285    0.740];
+hb.Position = [ 0.37    0.1    0.285    0.740];
+hc.Position = [ 0.7    0.1    0.285    0.740];
 
 
 
 %% Second row, Add the results of the finger
 figure(2)
-set(gcf,'Position', [   300   550   927   280])
+set(gcf,'Position', [   300   450   927   280])
 hd = subplot(1,3,1);
 imagesc(displayResults.displayResultsFinger.Xray2)
 title('(a)','fontsize',12)
@@ -54,14 +54,15 @@ axis tight
 
 colormap gray
 title('(c)','fontsize',12)
-
-hd.Position = [ 0.035    0.1    0.285    0.801];
-he.Position = [ 0.37    0.1    0.285    0.801];
-hf.Position = [ 0.699   0.1    0.285    0.801];
+xlabel('Horizontal position profile','fontsize',16)
+ylabel('Grey level Intensity','fontsize',16)
+hd.Position = [ 0.05   0.19    0.285    0.740];
+he.Position = [ 0.37    0.19    0.285    0.740];
+hf.Position = [ 0.73    0.19    0.255    0.740];
 
 %% Third row,  add the LBP Results
 figure(3)
-set(gcf,'Position', [   350   500   927   280])
+set(gcf,'Position', [   350   400   927   280])
 
 hg = subplot(4,3,7);
 imagesc(displayResults.displayResultsLBP.Xray_out)
@@ -79,13 +80,16 @@ bar(dataOut.LBP_Features)
 axis tight
 grid on
 title('(c)','fontsize',12)
-hg.Position = [ 0.035    0.1    0.285    0.801];
-hh.Position = [ 0.37    0.1    0.285    0.801];
-hi.Position = [ 0.699   0.1    0.285    0.801];
+ylabel('Value coefficients','fontsize',16)
+xlabel('LBP texture coefficients','fontsize',16)
+
+hg.Position = [ 0.05   0.19    0.285    0.740];
+hh.Position = [ 0.37    0.19    0.285    0.740];
+hi.Position = [ 0.73    0.19    0.255    0.740];
 colormap gray
 %% Fourth row add the profiles
 figure(4)
-set(gcf,'Position', [   400   450   927   280])
+set(gcf,'Position', [   400   350   927   280])
 
 hj = subplot(1,3,1);
 imagesc(displayResults.displayResultsRadial.dataOutput)
@@ -102,7 +106,8 @@ plot(displayResults.displayResultsRadial.prof_radial_new2,'b')
 grid on
 axis tight
 title('(b)','fontsize',12)
-
+xlabel('Horizontal position profile','fontsize',16)
+ylabel('Grey level Intensity','fontsize',16)
 hl = subplot(1,3,3);
 hold off
 plot(displayResults.displayResultsRadial.prof2_radial_new1,'r')
@@ -111,11 +116,14 @@ plot(displayResults.displayResultsRadial.prof2_radial_new2,'b')
 grid on
 axis tight
 title('(c)','fontsize',12)
+xlabel('Horizontal position profile','fontsize',16)
+ylabel('Relative Intensity','fontsize',16)
 % Add the lines
 %h = subplot(2,4,5)
 %imagesc(displayResults.displayResultsLunate)
 
-hj.Position = [ 0.035    0.1    0.285    0.801];
-hk.Position = [ 0.36    0.1    0.285    0.801];
-hl.Position = [ 0.69    0.1    0.285    0.801];
+hj.Position = [ 0.05   0.19    0.285    0.740];
+hk.Position = [ 0.41    0.19    0.255    0.740];
+hl.Position = [ 0.73    0.19    0.255    0.740];
 %%
+allHandles =[];
