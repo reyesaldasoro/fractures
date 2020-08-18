@@ -1,8 +1,9 @@
 function [LBP_features, displayResultsLBP] = ComputeLBPInPatch(Xray,Xray_info,Xray_mask,x, y, sizeInMM,currentFile,displayData)
 
 %[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR,Xray_info,stats.row_LBP-40,stats.col_LBP+50,sizeInMM,displayData);
-
-
+if ~exist('displayData','var')
+    displayData = 0;
+end
 % % Load the image and get header
 % I = dicomread(filename);
 % info = dicominfo(filename);
