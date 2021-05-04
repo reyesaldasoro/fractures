@@ -379,11 +379,11 @@ allHandles = F;
             close(v);
             
                 %% save the movie as a GIF
-    [imGif,mapGif] = rgb2ind(F(1).cdata,256,'nodither');
+    [imGif,mapGif] = rgb2ind(F(51).cdata,256,'nodither');
     numFrames = size(F,2);
 
     imGif(1,1,1,numFrames) = 0;
-    for k = 2:numFrames 
+    for k = 1:numFrames 
       imGif(:,:,1,k) = rgb2ind(F(k).cdata,mapGif,'nodither');
     end
     %%
