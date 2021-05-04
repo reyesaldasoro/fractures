@@ -219,9 +219,11 @@ displayResultsRadial =
 
 <pre class="codeinput">
 
+[dataOut,dataOut2,displayResults] = extract_measurements_xray(currentFile,Xray,Xray_info,Xray_mask);
+allHandles = displayXrayAnimation(displayResults,dataOut);
 
 
-</pre><img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt="">
+</pre><img vspace="5" hspace="5" src="AnimationXray.gif" alt="">
 
 
 
