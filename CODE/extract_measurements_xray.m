@@ -56,7 +56,7 @@ XrayR2                          = removeEdgesCollimator2(XrayR,70);
 % Add the texture analysis previously done by Greg and Julia select automatically
 % a point drawn from the profiles
 sizeInMM                        = [5, 5];
-[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,displayData);
+[LBP_Features,displayResultsLBP]    = ComputeLBPInPatch(XrayR2,Xray_info,Xray_maskR,stats.row_LBP,stats.col_LBP+50,sizeInMM,currentFile,displayData);
 
 %     
 %     % Collect all the metrics extracted
