@@ -210,4 +210,23 @@ displayResultsRadial =
 
 </pre><img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt="">
 
+
+
+<h2 id="8">Visualisations and animations</h2>
+
+<p> There are several ways to display and visualise the data. Try the files that start with <i>displayXray*.m</i>. For example to generate videos you can try:
+</p>
+
+<pre class="codeinput">
+
+
+
+</pre><img vspace="5" hspace="5" src="Figures/guideFractures_08.png" alt="">
+
+
+
+
+
+
+
 <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div>
