@@ -17,7 +17,7 @@ A previous version of this paper was submitted to MedRXiv (https://www.medrxiv.o
 <br>
 <br>
 
-
+<img vspace="5" hspace="5"  src="Figures/AnimationXray.gif" alt="">
 <a name="description"/>
 <h2> Colles' Fractures / dorsally displaced wrist fractures </h2>
 </a>
@@ -49,7 +49,7 @@ Manipulation under Anaesthesia.
 <li><a href="#5">Analysis based on the landmark of the lunate </a></li></ul></div>
 <li><a href="#6">Analysis of the texture a region of interest </a></li></ul></div>
 <li><a href="#7">Determine the ratio of trabecular / cortical to total bone</a></li></ul></div>
-
+<li><a href="#8">Visualisation and Animations</a></li></ul></div>
 
 <h2 id="1">Reading DICOM files</h2><p>If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like this</p>
 
