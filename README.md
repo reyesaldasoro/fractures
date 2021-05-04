@@ -8,8 +8,8 @@ This repository describes a semi-automatic image processing algorithm for the ge
 <h2> Citation </h2>
 </a>
 
-This work has been accepted for publication in PLOS ONE, if you find the work or the software interesting or useful, please cite as:<br> <br>
-<b>Constantino Carlos Reyes-Aldasoro1, Kwun Ho Ngan, Ananda Ananda, Artur d'Avila Garcez1, Andy Appelboam, Karen M. Knapp, Geometric Semi-automatic Analysis of Colles' Fractures, PLOS ONE (2020), to appear
+This work has been published in PLOS ONE, if you find the work or the software interesting or useful, please cite as:<br> <br>
+<b>Reyes-Aldasoro CC, Ngan KH, Ananda A, d’Avila Garcez A, Appelboam A, Knapp KM (2020) <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0238926">Geometric semi-automatic analysis of radiographs of Colles’ fractures</a>. PLoS ONE 15(9): e0238926. https://doi.org/10.1371/journal.pone.0238926  
 </b>
 <br><br>
 
