@@ -1,7 +1,9 @@
 clear
-
-cd('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture')
-
+try
+    cd('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture')
+catch
+    cd('C:\Users\sbbk034\OneDrive - City, University of London\Acad\Research\Exeter_Fracture')
+end
 load statsGenAge
 
 %% Prepare the stats for the figures
@@ -12,7 +14,7 @@ end
 
 %%
 h0=figure;
-h0.Position=[    604   594   843   353];
+h0.Position=[    204   294   843   353];
 
 %%
 h1=subplot(121);
