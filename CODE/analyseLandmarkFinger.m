@@ -305,6 +305,11 @@ linesMeasurement (rr(end)-3:rr(end),cc(1):cc(end))=1;
     dataOutput(:,:,2) = Xray.*(1-linesMeasurement);
     dataOutput          = dataOutput/maxIntensity;
 
+    dataOutput3         = dataOutput;
+    dataOutput3(rr,cc,1:2) = Combined(2:end-1,2:end,1:2);
+    
+    
+    
 CorticalProfile ={Cortical,{centValleyLoc,centValley,...
     leftPeakLoc,leftPeak,...
     rightPeakLoc,rightPeak,...
@@ -358,6 +363,7 @@ end
 % save results in a single variable
 displayResultsFinger.Combined             = Combined;
 displayResultsFinger.dataOutput           = dataOutput;
+displayResultsFinger.dataOutput3           = dataOutput3;
 displayResultsFinger.CorticalProfile      = CorticalProfile;
 displayResultsFinger.WidthFinger          = WidthFinger;
 displayResultsFinger.Xray2                = Xray2 ;
