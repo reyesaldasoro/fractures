@@ -253,8 +253,8 @@ CorticalBone(:,centValleyLoc)   = 0;
 TrabecularBone                 = imclose(CorticalBone,strel('line',5+rightPeakLoc-leftPeakLoc,angleRot))-CorticalBone;
 TrabecularBone                 = imopen(TrabecularBone,ones(2,1));
 Combined(:,:,3)                = Xray5/max(Xray5(:));
-Combined(:,:,2)                = Xray5/max(Xray5(:)).*(1-TrabecularBone)+Xray5/max(Xray5(:)).*(0.79999*TrabecularBone);
-Combined(:,:,1)                = Xray5/max(Xray5(:)).*(1-CorticalBone)+Xray5/max(Xray5(:)).*(0.79999*CorticalBone);
+Combined(:,:,2)                = Xray5/max(Xray5(:)).*(1-TrabecularBone)+Xray5/max(Xray5(:)).*(0.1999*TrabecularBone);
+Combined(:,:,1)                = Xray5/max(Xray5(:)).*(1-CorticalBone)+Xray5/max(Xray5(:)).*(0.1999*CorticalBone);
 
 TrabecularArea                  = sum(TrabecularBone(:));
 CorticalArea                    = sum(CorticalBone(:));
@@ -306,7 +306,7 @@ linesMeasurement (rr(end)-3:rr(end),cc(1):cc(end))=1;
     dataOutput          = dataOutput/maxIntensity;
 
     dataOutput3         = dataOutput;
-    dataOutput3(rr,cc,1:2) = Combined(2:end-1,2:end,1:2);
+    dataOutput3(rr(2:end-1),cc(2:end-1),1:2) = Combined(3:end-2,3:end-1,1:2);
     
     
     
