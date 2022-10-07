@@ -2,9 +2,10 @@
 % If your data is in DICOM format, you can read into Matlab using the functions dicomread and dicominfo like
 % this 
 
-dicom_header = dicominfo('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0');
-
-dicom_image = dicomread('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0');
+%dicom_header = dicominfo('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0');
+%dicom_image = dicomread('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0');
+dicom_header = dicominfo('C:\Users\sbbk034\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0');
+dicom_image = dicomread('C:\Users\sbbk034\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM\Normals\N1\PAT1\STD1\SER1\IMG0');
 
 %%
 dicom_header
@@ -22,7 +23,8 @@ clear
 % "Xray_mask". Then these can be loaded together from one file, e.g.
 clear
 %load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8865_PATIENT_PA_301.mat')
-load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8845_PATIENT_PA_298.mat')
+%load('D:\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8845_PATIENT_PA_298.mat')
+load('C:\Users\sbbk034\OneDrive - City, University of London\Acad\Research\Exeter_Fracture\DICOM_Karen\ANON8845_PATIENT_PA_298.mat')
  
 whos
 %% Alignment of the forearm
